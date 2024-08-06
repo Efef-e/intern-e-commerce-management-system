@@ -2,13 +2,13 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <header className="bg-black text-white py-4">
-        <div className="container mx-auto flex justify-between items-center px-6">
-          <h1 className="text-3xl font-bold">
+        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6">
+          <h1 className="text-3xl font-bold text-center md:text-left mb-4 md:mb-0">
             E-Commerce Management System
           </h1>
-          <nav className="space-x-4">
+          <nav className="flex flex-col md:flex-row space-y-2 md:space-y-0 m:space-x-4">
             <Link
               href="/productadd"
               className="px-6 py-3 text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
@@ -25,7 +25,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="bg-white min-h-screen flex flex-col items-center justify-center text-center p-6">
+      <main className="bg-white flex-grow flex flex-fol items-center justify-center text-center p-6">
         <div className="max-w-4xl">
           <h2 className="text-4xl font-bold mb-6 text-black">
             Make Your Easier With E-Commerce Management
@@ -36,7 +36,7 @@ export default function Home() {
             modern and user-friendly platform that will meet
             all your e-commerce needs.
           </p>
-          <div className="space-x-4">
+          <div className="justify-center space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
             <Link
               href="/productadd"
               className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
