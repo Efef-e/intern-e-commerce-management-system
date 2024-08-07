@@ -56,7 +56,7 @@ export default function Home() {
               List Product
             </Link>
             <Link
-              href="/productlist"
+              href="/productdetail"
               className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
             >
               Product Detail
