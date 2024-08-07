@@ -23,6 +23,7 @@ export default function AddProduct() {
       [name]: value,
     }));
   };
+
   const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
