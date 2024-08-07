@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 export default function AddProduct() {
@@ -105,7 +107,7 @@ export default function AddProduct() {
           value={product.price}
           onChange={handleChange}
           placeholder="Price"
-          className="w-pull px-4 py-2 border text-black"
+          className="w-full px-4 py-2 border text-black"
         />
 
         <input
@@ -115,7 +117,7 @@ export default function AddProduct() {
           value={product.discountPrice}
           onChange={handleChange}
           placeholder="Discount Price"
-          className="w-full px-4 py-4 border text-black"
+          className="w-full px-4 py-2 border text-black"
         />
 
         <input
