@@ -1,24 +1,7 @@
 "use client";
 
-import { Mode } from "fs";
 import Link from "next/link";
-import {
-  useState,
-  useEffect,
-  useRef,
-  MouseEvent as ReactMouseEvent,
-} from "react";
-
-interface Product {
-  name: string;
-  seller: string;
-  stock: string;
-  price: string;
-  discountPrice: string;
-  category: string;
-  images: File[];
-  productId: string;
-}
+import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState<string>("");
