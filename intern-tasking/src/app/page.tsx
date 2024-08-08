@@ -1,6 +1,110 @@
+"use client";
+
+import { Mode } from "fs";
 import Link from "next/link";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  MouseEvent as ReactMouseEvent,
+} from "react";
+
+interface Product {
+  name: string;
+  seller: string;
+  stock: string;
+  price: string;
+  discountPrice: string;
+  category: string;
+  images: File[];
+  productId: string;
+}
 
 export default function Home() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>(
+    []
+  );
+  const [products, setProducts] = useState<any[]>([]);
+  const [isDropdownOpen, setIsDropdownOpen] =
+    useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const dropdownRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const storedProducts: Product[] = JSON.parse(
+      localStorage.getItem("products") ?? "[]"
+    );
+    setProducts(storedProducts);
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      const results = products.filter((product) =>
+        product.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
+      setSearchResults(results);
+      setIsDropdownOpen(true);
+    } else {
+      setSearchResults([]);
+      setIsDropdownOpen(false);
+    }
+  }, [searchTerm, products]);
+
+  const handleSearchChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "ArrowDown") {
+      setActiveIndex(
+        (prevIndex) =>
+          (prevIndex + 1) % searchResults.length
+      );
+    } else if (e.key === "ArrowUp") {
+      setActiveIndex(
+        (prevIndex) =>
+          (prevIndex - 1 + searchResults.length) %
+          searchResults.length
+      );
+    } else if (e.key === "Escape") {
+      setIsDropdownOpen(false);
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      window.location.href = `productdetail/${searchResults[activeIndex].productId}`;
+    }
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) =>
+      handleClickOutside(event);
+
+    document.addEventListener(
+      "mousedown",
+      handleDocumentClick
+    );
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleDocumentClick
+      );
+    };
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-black text-white py-4">
@@ -28,6 +132,40 @@ export default function Home() {
               Product Detail
             </Link>
           </nav>
+        </div>
+
+        <div className="container mx-auto flex justify-center items-center px-6 mt-4">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Search products..."
+            className="w-full px-4 py-2 border rounded text-black"
+          />
+          {isDropdownOpen && searchResults.length > 0 && (
+            <ul
+              ref={dropdownRef}
+              className="absolute bg-white border rounded mt-2 w-full max-w-lg"
+            >
+              {searchResults.map((product, index) => (
+                <li
+                  key={product.productId}
+                  className={`px-4 py-2${
+                    index === activeIndex
+                      ? "bg-gray-200"
+                      : ""
+                  }`}
+                >
+                  <Link
+                    href={`/productdetail/${product.productId}`}
+                  >
+                    {product.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </header>
 
