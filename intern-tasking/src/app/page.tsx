@@ -2,7 +2,7 @@
 
 import { Mode } from "fs";
 import Link from "next/link";
-import React, {
+import {
   useState,
   useEffect,
   useRef,
@@ -21,18 +21,19 @@ interface Product {
 }
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<any[]>(
     []
   );
   const [products, setProducts] = useState<any[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] =
-    useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const dropdownRef = useRef<HTMLUListElement>(null);
+    useState<boolean>(false);
+  const [activeIndex, setActiveIndex] =
+    useState<number>(-1);
+  const dropdownRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
-    const storedProducts: Product[] = JSON.parse(
+    const storedProducts = JSON.parse(
       localStorage.getItem("products") ?? "[]"
     );
     setProducts(storedProducts);
@@ -90,17 +91,14 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const handleDocumentClick = (event: MouseEvent) =>
-      handleClickOutside(event);
-
     document.addEventListener(
       "mousedown",
-      handleDocumentClick
+      handleClickOutside
     );
     return () => {
       document.removeEventListener(
         "mousedown",
-        handleDocumentClick
+        handleClickOutside
       );
     };
   }, []);
@@ -134,7 +132,7 @@ export default function Home() {
           </nav>
         </div>
 
-        <div className="container mx-auto flex justify-center items-center px-6 mt-4">
+        <div className="container text-black mx-auto flex justify-center items-center px-6 mt-4">
           <input
             type="text"
             value={searchTerm}
