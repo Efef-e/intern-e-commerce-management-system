@@ -91,8 +91,41 @@ export default function Home() {
       <header className="bg-black text-white py-4">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6">
           <h1 className="text-3xl font-bold text-center md:text-left mb-4 md:mb-0">
-            E-Commerce Management System
+            E-Commerce
           </h1>
+          <div className="text-black relative w-full md:max-w-sm">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Search products..."
+              className=" px-20 py-2 border rounded text-black"
+            />
+            {isDropdownOpen && searchResults.length > 0 && (
+              <ul
+                ref={dropdownRef}
+                className="absolute bg-white border rounded mt-2 w-full max-w-lg"
+              >
+                {searchResults.map((product, index) => (
+                  <li
+                    key={product.productId}
+                    className={`px-4 py-2${
+                      index === activeIndex
+                        ? "bg-gray-200"
+                        : ""
+                    }`}
+                  >
+                    <Link
+                      href={`/productdetail/${product.productId}`}
+                    >
+                      {product.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           <nav className="flex flex-col md:flex-row space-y-2 md:space-y-0 m:space-x-4">
             <Link
               href="/productadd"
@@ -113,40 +146,6 @@ export default function Home() {
               Product Detail
             </Link>
           </nav>
-        </div>
-
-        <div className="container text-black mx-auto flex justify-center items-center px-6 mt-4">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyDown={handleKeyDown}
-            placeholder="Search products..."
-            className="w-full px-4 py-2 border rounded text-black"
-          />
-          {isDropdownOpen && searchResults.length > 0 && (
-            <ul
-              ref={dropdownRef}
-              className="absolute bg-white border rounded mt-2 w-full max-w-lg"
-            >
-              {searchResults.map((product, index) => (
-                <li
-                  key={product.productId}
-                  className={`px-4 py-2${
-                    index === activeIndex
-                      ? "bg-gray-200"
-                      : ""
-                  }`}
-                >
-                  <Link
-                    href={`/productdetail/${product.productId}`}
-                  >
-                    {product.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </header>
 
