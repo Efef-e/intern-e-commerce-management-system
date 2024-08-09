@@ -100,7 +100,7 @@ export default function Home() {
               onChange={handleSearchChange}
               onKeyDown={handleKeyDown}
               placeholder="Search products..."
-              className="w-full px-4 py-2 border rounded text-black"
+              className="bg-gray-100 w-full px-4 py-2 border rounded text-black"
             />
             {isDropdownOpen && searchResults.length > 0 && (
               <ul
@@ -110,7 +110,7 @@ export default function Home() {
                 {searchResults.map((product, index) => (
                   <li
                     key={product.productId}
-                    className={`px-4 py-2${
+                    className={`px-4 py-2 cursor-pointer ${
                       index === activeIndex
                         ? "bg-gray-200"
                         : ""
