@@ -93,19 +93,19 @@ export default function Home() {
           <h1 className="text-3xl font-bold text-center md:text-left mb-4 md:mb-0">
             E-Commerce
           </h1>
-          <div className="text-black relative w-full md:max-w-sm">
+          <div className="relative text-black w-full md:w-1/3 flex justify-center md:justify-between">
             <input
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
               onKeyDown={handleKeyDown}
               placeholder="Search products..."
-              className=" px-20 py-2 border rounded text-black"
+              className="w-full px-4 py-2 border rounded text-black"
             />
             {isDropdownOpen && searchResults.length > 0 && (
               <ul
                 ref={dropdownRef}
-                className="absolute bg-white border rounded mt-2 w-full max-w-lg"
+                className="absolute left-0 top-full bg-white border rounded mt-1 w-full max-w-lg z-50"
               >
                 {searchResults.map((product, index) => (
                   <li
