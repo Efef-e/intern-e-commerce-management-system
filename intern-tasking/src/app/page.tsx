@@ -149,7 +149,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="bg-white flex-grow flex flex-fol items-center justify-center text-center p-6">
+      <main className="bg-gray-100 flex-grow flex flex-fol items-center justify-center text-center p-6">
         <div className="max-w-4xl">
           <h2 className="text-4xl font-bold mb-6 text-black">
             Make Your Easier With E-Commerce Management
