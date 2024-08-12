@@ -34,8 +34,7 @@ const ProductList = () => {
     const { name, value, type, checked } = e.target;
     setFilters({
       ...filters,
-      [name]:
-        type === "checkbox" ? checked : parseFloat(value),
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -75,7 +74,7 @@ const ProductList = () => {
                 name="minPrice"
                 value={filters.minPrice}
                 onChange={handleFilterChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="text-black w-full p-2 border border-gray-300 rounded-md"
               ></input>
             </div>
 
@@ -88,7 +87,7 @@ const ProductList = () => {
                 name="maxPrice"
                 value={filters.maxPrice}
                 onChange={handleFilterChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="text-black w-full p-2 border border-gray-300 rounded-md"
               ></input>
             </div>
 
