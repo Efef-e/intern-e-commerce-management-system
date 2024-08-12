@@ -70,7 +70,7 @@ export default function AddProduct() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-black text-2x1 font-bold mb-6 text-center">
           Add Product
         </h1>
