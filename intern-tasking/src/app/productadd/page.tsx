@@ -14,6 +14,7 @@ export default function AddProduct() {
     category: "",
     images: [] as File[],
     productId: "",
+    imageURL: "",
   });
 
   const handleChange = (
@@ -146,6 +147,15 @@ export default function AddProduct() {
               multiple
               className="w-full px-4 py-2 border rounded text-black"
             />
+
+            <input
+              type="text"
+              name="imageURL"
+              value={product.imageURL}
+              onChange={handleChange}
+              placeholder="Image URL"
+              className="w-full px-4 py-2 border rounded text-black"
+            ></input>
             <input
               type="text"
               name="productId"

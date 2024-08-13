@@ -11,6 +11,7 @@ interface Product {
   stock: number;
   price: number;
   discountPrice?: number;
+  imageURL: string;
 }
 
 const ProductList = () => {
@@ -125,6 +126,11 @@ const ProductList = () => {
                   <h3 className="text-black text-lg font-semibold mb-2">
                     {product.name}
                   </h3>
+                  <img
+                    src={product.imageURL}
+                    alt={product.name}
+                    className="mb-4"
+                  ></img>
                   <p className="text-gray-600">
                     Seller: {product.seller}
                   </p>
@@ -132,11 +138,11 @@ const ProductList = () => {
                     Stock: {product.stock}
                   </p>
                   <p className="text-gray-600">
-                    Price: {product.price}
+                    Price: ${product.price}
                   </p>
                   {product.discountPrice && (
                     <p className="text-gray-600">
-                      Discount Price:{" "}
+                      Discount Price: ${""}
                       {product.discountPrice}
                     </p>
                   )}
