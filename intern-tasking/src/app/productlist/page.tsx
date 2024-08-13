@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Header from "../header/page";
+import Footer from "../footer/page";
 
 interface Product {
   id: string;
@@ -57,8 +59,9 @@ const ProductList = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <div className="container mx-auto p-6">
+    <div className="bg-gray-100 min-h-screen flex flex-col">
+      <Header />
+      <div className="container mx-auto p-6 flex-grow">
         <div className="flex flex-col md:flex-row mb-6">
           <div className="md:w-1/4 p-4 bg-white rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold mb-4">
@@ -143,6 +146,7 @@ const ProductList = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

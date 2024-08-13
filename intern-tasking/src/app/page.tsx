@@ -1,7 +1,11 @@
 "use client";
 
+import Header from "./header/page";
+import Footer from "./footer/page";
+
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import Head from "next/head";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -88,68 +92,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="bg-black text-white py-4">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6">
-          <h1 className="text-3xl font-bold text-center md:text-left mb-4 md:mb-0">
-            E-Commerce
-          </h1>
-          <div className="relative text-black w-full md:w-1/3 flex justify-center md:justify-between">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onKeyDown={handleKeyDown}
-              placeholder="Search products..."
-              className="bg-gray-100 w-full px-4 py-2 border rounded text-black"
-            />
-            {isDropdownOpen && searchResults.length > 0 && (
-              <ul
-                ref={dropdownRef}
-                className="absolute left-0 top-full bg-white border rounded mt-1 w-full max-w-lg z-50"
-              >
-                {searchResults.map((product, index) => (
-                  <li
-                    key={product.productId}
-                    className={`px-4 py-2 cursor-pointer ${
-                      index === activeIndex
-                        ? "bg-gray-200"
-                        : ""
-                    }`}
-                  >
-                    <Link
-                      href={`/productdetail/${product.productId}`}
-                    >
-                      {product.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <nav className="flex flex-col md:flex-row space-y-2 md:space-y-0 m:space-x-4">
-            <Link
-              href="/productadd"
-              className="px-6 py-3 text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
-            >
-              Product Add
-            </Link>
-            <Link
-              href="/productlist"
-              className="px-6 py-3 text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
-            >
-              List Products
-            </Link>
-            <Link
-              href="/productdetail"
-              className="px-6 py-3 text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
-            >
-              Product Detail
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <main className="bg-gray-100 flex-grow flex flex-fol items-center justify-center text-center p-6">
+      <Header />
+      <main className="bg-gray-100 flex-grow flex flex-col items-center justify-center text-center p-6">
         <div className="max-w-4xl">
           <h2 className="text-4xl font-bold mb-6 text-black">
             Make Your Easier With E-Commerce Management
@@ -160,21 +104,21 @@ export default function Home() {
             modern and user-friendly platform that will meet
             all your e-commerce needs.
           </p>
-          <div className="justify-center space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
+          <div className="justify-center space-y-4 sm:space-y-0 sm:space-x-5 flex flex-col sm:flex-row">
             <Link
-              href="/productadd"
+              href={"/productadd"}
               className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
             >
               Product Add
             </Link>
             <Link
-              href="/productlist"
+              href={"/productlist"}
               className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
             >
-              List Product
+              Product List
             </Link>
             <Link
-              href="/productdetail"
+              href={"/productadd"}
               className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
             >
               Product Detail
@@ -182,15 +126,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      <footer className="bg-black text-white py-4 mt-8">
-        <div className="container mx-auto text-center">
-          <p>
-            &copy; 2024 E-Commerce Management System. All
-            rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
