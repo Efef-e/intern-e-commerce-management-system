@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Header from "../header/page";
+import Footer from "../footer/page";
 
 export default function AddProduct() {
   const [product, setProduct] = useState({
@@ -69,91 +71,99 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-black text-2x1 font-bold mb-6 text-center">
-          Add Product
-        </h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="name"
-            value={product.name}
-            onChange={handleChange}
-            placeholder="Product Name"
-            className="w-full px-4 py-2 border rounded text-black"
-          />
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <Header />
 
-          <input
-            type="text"
-            name="seller"
-            value={product.seller}
-            onChange={handleChange}
-            placeholder="Seller"
-            className="w-full px-4 py-2 border rounded text-black"
-          />
-
-          <input
-            type="number"
-            name="stock"
-            value={product.stock}
-            onChange={handleChange}
-            placeholder="Stock"
-            className="w-full px-4 py-2 border rounded text-black"
-          />
-
-          <input
-            type="number"
-            step="0.01"
-            name="price"
-            value={product.price}
-            onChange={handleChange}
-            placeholder="Price"
-            className="w-full px-4 py-2 border rounded text-black"
-          />
-
-          <input
-            type="number"
-            step="0.01"
-            name="discountPrice"
-            value={product.discountPrice}
-            onChange={handleChange}
-            placeholder="Discount Price"
-            className="w-full px-4 py-2 border rounded text-black"
-          />
-
-          <input
-            type="text"
-            name="category"
-            value={product.category}
-            onChange={handleChange}
-            placeholder="Category"
-            className="w-full px-4 py-2 border rounded text-black"
-          />
-
-          <input
-            type="file"
-            name="images"
-            onChange={handleImageChange}
-            multiple
-            className="w-full px-4 py-2 border rounded text-black"
-          />
-          <input
-            type="text"
-            name="productId"
-            value={product.productId}
-            onChange={handleChange}
-            placeholder="Product ID"
-            className="w-full px-4 py-2 border rounded text-black"
-          />
-          <button
-            type="submit"
-            className="w-full px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
-          >
+      <main className="flex-grow flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+          <h1 className="text-black text-2x1 font-bold mb-6 text-center">
             Add Product
-          </button>
-        </form>
-      </div>
+          </h1>
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4"
+          >
+            <input
+              type="text"
+              name="name"
+              value={product.name}
+              onChange={handleChange}
+              placeholder="Product Name"
+              className="w-full px-4 py-2 border rounded text-black"
+            />
+
+            <input
+              type="text"
+              name="seller"
+              value={product.seller}
+              onChange={handleChange}
+              placeholder="Seller"
+              className="w-full px-4 py-2 border rounded text-black"
+            />
+
+            <input
+              type="number"
+              name="stock"
+              value={product.stock}
+              onChange={handleChange}
+              placeholder="Stock"
+              className="w-full px-4 py-2 border rounded text-black"
+            />
+
+            <input
+              type="number"
+              step="0.01"
+              name="price"
+              value={product.price}
+              onChange={handleChange}
+              placeholder="Price"
+              className="w-full px-4 py-2 border rounded text-black"
+            />
+
+            <input
+              type="number"
+              step="0.01"
+              name="discountPrice"
+              value={product.discountPrice}
+              onChange={handleChange}
+              placeholder="Discount Price"
+              className="w-full px-4 py-2 border rounded text-black"
+            />
+
+            <input
+              type="text"
+              name="category"
+              value={product.category}
+              onChange={handleChange}
+              placeholder="Category"
+              className="w-full px-4 py-2 border rounded text-black"
+            />
+
+            <input
+              type="file"
+              name="images"
+              onChange={handleImageChange}
+              multiple
+              className="w-full px-4 py-2 border rounded text-black"
+            />
+            <input
+              type="text"
+              name="productId"
+              value={product.productId}
+              onChange={handleChange}
+              placeholder="Product ID"
+              className="w-full px-4 py-2 border rounded text-black"
+            />
+            <button
+              type="submit"
+              className="w-full px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
+            >
+              Add Product
+            </button>
+          </form>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }
