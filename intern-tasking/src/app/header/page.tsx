@@ -90,7 +90,7 @@ const Header = () => {
     <header className="bg-black text-white py-4">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6">
         <h1 className="text-3xl font-bold text-center md:text-left mb-4 md:mb-0">
-          E-Commerce
+          <Link href={"/"}>E-Commerce</Link>
         </h1>
         <div className="relative text-black w-full md:w-1/3 flex justify-center md:justify-between">
           <input
