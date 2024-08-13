@@ -13,7 +13,6 @@ interface Product {
   discountPrice?: number;
   imageURL: string;
 }
-
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filters, setFilters] = useState({
