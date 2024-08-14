@@ -13,7 +13,7 @@ interface Product {
   stock: number;
   price: number;
   discountPrice?: number;
-  imageURL: string; // Tekil URL
+  imageURL: string;
 }
 
 const ProductDetail = () => {
@@ -68,7 +68,7 @@ const ProductDetail = () => {
     if (product) {
       setCurrentImageIndex(
         (prevIndex) => (prevIndex - 1 + 1) % 1
-      ); // Tekil resim varsa 1 değeri
+      );
     }
   };
 
@@ -76,7 +76,7 @@ const ProductDetail = () => {
     if (product) {
       setCurrentImageIndex(
         (prevIndex) => (prevIndex + 1) % 1
-      ); // Tekil resim varsa 1 değeri
+      );
     }
   };
 
@@ -98,7 +98,7 @@ const ProductDetail = () => {
               "/path/to/default-image.jpg"
             }
             alt={product.name}
-            className="mb-4 w-full cursor-pointer"
+            className="mb-4 cursor-pointer"
             onClick={openModal}
           />
 
@@ -122,7 +122,7 @@ const ProductDetail = () => {
             </p>
           )}
           <button
-            className={`px-4 py-2 mt-4 rounded-md ${
+            className={`px-4 py-2 mt-4 rounded-md hover:bg-gray-500 transition-colors duration-300 ${
               product.stock > 0
                 ? "bg-black text-white"
                 : "bg-gray-400 text-gray-700 cursor-not-allowed"
