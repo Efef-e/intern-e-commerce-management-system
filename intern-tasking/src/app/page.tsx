@@ -5,7 +5,6 @@ import Footer from "./footer/page";
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import Head from "next/head";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -116,12 +115,6 @@ export default function Home() {
               className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
             >
               Product List
-            </Link>
-            <Link
-              href={"/productadd"}
-              className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
-            >
-              Product Detail
             </Link>
           </div>
         </div>

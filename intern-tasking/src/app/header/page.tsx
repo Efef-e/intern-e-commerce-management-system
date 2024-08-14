@@ -138,12 +138,6 @@ const Header = () => {
           >
             Product List
           </Link>
-          <Link
-            href="/productdetail"
-            className="px-6 py-3 text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
-          >
-            Product Detail
-          </Link>
         </nav>
       </div>
     </header>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Header from "../header/page";
 import Footer from "../footer/page";
+import Link from "next/link";
 
 interface Product {
   id: string;
@@ -13,6 +14,7 @@ interface Product {
   discountPrice?: number;
   imageURL: string;
 }
+
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filters, setFilters] = useState({
@@ -118,34 +120,36 @@ const ProductList = () => {
           <div className="md:w-3/4 p-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.map((product) => (
-                <div
+                <Link
+                  href={`/productdetail/${product.id}`}
                   key={product.id}
-                  className="bg-white border border-gray-200 rounded-lg shadow-md p-4"
                 >
-                  <h3 className="text-black text-lg font-semibold mb-2">
-                    {product.name}
-                  </h3>
-                  <img
-                    src={product.imageURL}
-                    alt={product.name}
-                    className="mb-4"
-                  ></img>
-                  <p className="text-gray-600">
-                    Seller: {product.seller}
-                  </p>
-                  <p className="text-gray-600">
-                    Stock: {product.stock}
-                  </p>
-                  <p className="text-gray-600">
-                    Price: ${product.price}
-                  </p>
-                  {product.discountPrice && (
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer">
+                    <h3 className="text-black text-lg font-semibold mb-2">
+                      {product.name}
+                    </h3>
+                    <img
+                      src={product.imageURL}
+                      alt={product.name}
+                      className="mb-4"
+                    ></img>
                     <p className="text-gray-600">
-                      Discount Price: ${""}
-                      {product.discountPrice}
+                      Seller: {product.seller}
                     </p>
-                  )}
-                </div>
+                    <p className="text-gray-600">
+                      Stock: {product.stock}
+                    </p>
+                    <p className="text-gray-600">
+                      Price: ${product.price}
+                    </p>
+                    {product.discountPrice && (
+                      <p className="text-gray-600">
+                        Discount Price: $
+                        {product.discountPrice}
+                      </p>
+                    )}
+                  </div>
+                </Link>
               ))}
             </div>
           </div>

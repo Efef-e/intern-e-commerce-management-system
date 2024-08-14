@@ -3,27 +3,40 @@
 import { useState } from "react";
 import Header from "../header/page";
 import Footer from "../footer/page";
+import { v4 as uuidv4 } from "uuid";
+
+interface Product {
+  id: string;
+  name: string;
+  seller: string;
+  stock: number;
+  price: number;
+  discountPrice?: number;
+  category: string;
+  images: File[];
+  imageURL: string;
+}
 
 export default function AddProduct() {
-  const [product, setProduct] = useState({
+  const [product, setProduct] = useState<Product>({
+    id: "",
     name: "",
     seller: "",
-    stock: "",
-    price: "",
-    discountPrice: "",
+    stock: 0,
+    price: 0,
+    discountPrice: 0,
     category: "",
-    images: [] as File[],
-    productId: "",
+    images: [],
     imageURL: "",
   });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -44,22 +57,37 @@ export default function AddProduct() {
     e.preventDefault();
     if (isValidForm()) {
       try {
+        const newProduct = {
+          ...product,
+          id: uuidv4(),
+        };
         const storedProducts = JSON.parse(
           localStorage.getItem("products") ?? "[]"
         );
-        storedProducts.push(product);
+        storedProducts.push(newProduct);
         localStorage.setItem(
           "products",
           JSON.stringify(storedProducts)
         );
-        alert("Product added successcully!");
+        alert("Product added successfully!");
+        setProduct({
+          id: "",
+          name: "",
+          seller: "",
+          stock: 0,
+          price: 0,
+          discountPrice: 0,
+          category: "",
+          images: [],
+          imageURL: "",
+        });
       } catch (error) {
         console.error(
           "Error accessing localStorage:",
           error
         );
         alert(
-          "There was an error saving the product.Please try again."
+          "There was an error saving the product. Please try again."
         );
       }
     } else {
@@ -68,7 +96,12 @@ export default function AddProduct() {
   };
 
   const isValidForm = () => {
-    return true;
+    return (
+      product.name &&
+      product.seller &&
+      product.stock > 0 &&
+      product.price > 0
+    );
   };
 
   return (
@@ -77,7 +110,7 @@ export default function AddProduct() {
 
       <main className="flex-grow flex items-center justify-center">
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-          <h1 className="text-black text-2x1 font-bold mb-6 text-center">
+          <h1 className="text-black text-2xl font-bold mb-6 text-center">
             Add Product
           </h1>
           <form
@@ -125,7 +158,7 @@ export default function AddProduct() {
               type="number"
               step="0.01"
               name="discountPrice"
-              value={product.discountPrice}
+              value={product.discountPrice || ""}
               onChange={handleChange}
               placeholder="Discount Price"
               className="w-full px-4 py-2 border rounded text-black"
@@ -155,15 +188,8 @@ export default function AddProduct() {
               onChange={handleChange}
               placeholder="Image URL"
               className="w-full px-4 py-2 border rounded text-black"
-            ></input>
-            <input
-              type="text"
-              name="productId"
-              value={product.productId}
-              onChange={handleChange}
-              placeholder="Product ID"
-              className="w-full px-4 py-2 border rounded text-black"
             />
+
             <button
               type="submit"
               className="w-full px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
