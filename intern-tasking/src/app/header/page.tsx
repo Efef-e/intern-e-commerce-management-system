@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
@@ -60,7 +58,7 @@ const Header = () => {
     } else if (e.key === "Escape") {
       setIsDropdownOpen(false);
     } else if (e.key === "Enter" && activeIndex >= 0) {
-      window.location.href = `productdetail/${searchResults[activeIndex].productId}`;
+      window.location.href = `/productdetail/${searchResults[activeIndex].id}`;
     }
   };
 
@@ -108,7 +106,7 @@ const Header = () => {
             >
               {searchResults.map((product, index) => (
                 <li
-                  key={product.productId}
+                  key={product.id} // Ensure each item has a unique key
                   className={`px-4 py-2 cursor-pointer ${
                     index === activeIndex
                       ? "bg-gray-200"
@@ -116,7 +114,7 @@ const Header = () => {
                   }`}
                 >
                   <Link
-                    href={`/productdetail/${product.productId}`}
+                    href={`/productdetail/${product.id}`}
                   >
                     {product.name}
                   </Link>
@@ -125,7 +123,7 @@ const Header = () => {
             </ul>
           )}
         </div>
-        <nav className="flex flex-col md:flex-row space-y-2 md:space-y-0 m:space-x-4">
+        <nav className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
           <Link
             href="/productadd"
             className="px-6 py-3 text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
