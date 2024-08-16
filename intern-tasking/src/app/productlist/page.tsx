@@ -80,7 +80,7 @@ const ProductList = () => {
                 value={filters.minPrice}
                 onChange={handleFilterChange}
                 className="text-black w-full p-2 border border-gray-300 rounded-md"
-              ></input>
+              />
             </div>
 
             <div className="mb-4">
@@ -93,7 +93,7 @@ const ProductList = () => {
                 value={filters.maxPrice}
                 onChange={handleFilterChange}
                 className="text-black w-full p-2 border border-gray-300 rounded-md"
-              ></input>
+              />
             </div>
 
             <div className="mb-4 flex items-center">
@@ -124,26 +124,28 @@ const ProductList = () => {
                   href={`/productdetail/${product.id}`}
                   key={product.id}
                 >
-                  <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer">
-                    <h3 className="text-black text-lg font-semibold mb-2">
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer flex flex-col">
+                    <div className="relative w-full h-64 mb-4">
+                      <img
+                        src={product.imageURL}
+                        alt={product.name}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <h3 className="text-black text-lg font-semibold mb-2 text-center">
                       {product.name}
                     </h3>
-                    <img
-                      src={product.imageURL}
-                      alt={product.name}
-                      className="mb-4"
-                    ></img>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 text-center">
                       Seller: {product.seller}
                     </p>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 text-center">
                       Stock: {product.stock}
                     </p>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 text-center">
                       Price: ${product.price}
                     </p>
                     {product.discountPrice && (
-                      <p className="text-gray-600">
+                      <p className="text-gray-600 text-center">
                         Discount Price: $
                         {product.discountPrice}
                       </p>
