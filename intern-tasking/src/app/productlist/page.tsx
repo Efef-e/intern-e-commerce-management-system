@@ -65,56 +65,58 @@ const ProductList = () => {
       <Header />
       <div className="container mx-auto p-6 flex-grow">
         <div className="flex flex-col md:flex-row mb-6">
-          <div className="md:w-1/4 p-4 bg-white rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold mb-4">
-              Filter
-            </h2>
+          <div className="md:w-1/4">
+            <div className="p-4 bg-white rounded-lg shadow-lg">
+              <h2 className="text-xl font-semibold mb-4">
+                Filter
+              </h2>
 
-            <div className="mb-4">
-              <label className="block text-gray-700">
-                Min Price:
-              </label>
-              <input
-                type="number"
-                name="minPrice"
-                value={filters.minPrice}
-                onChange={handleFilterChange}
-                className="text-black w-full p-2 border border-gray-300 rounded-md"
-              />
+              <div className="mb-4">
+                <label className="block text-gray-700">
+                  Min Price:
+                </label>
+                <input
+                  type="number"
+                  name="minPrice"
+                  value={filters.minPrice}
+                  onChange={handleFilterChange}
+                  className="text-black w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">
+                  Max Price:
+                </label>
+                <input
+                  type="number"
+                  name="maxPrice"
+                  value={filters.maxPrice}
+                  onChange={handleFilterChange}
+                  className="text-black w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+
+              <div className="mb-4 flex items-center">
+                <input
+                  type="checkbox"
+                  name="inStock"
+                  checked={filters.inStock}
+                  onChange={handleFilterChange}
+                  className="mr-2"
+                />
+                <label className="text-gray-700">
+                  In Stock
+                </label>
+              </div>
+
+              <button
+                onClick={applyFilters}
+                className="bg-black text-white p-2 rounded-md hover:bg-gray-500 transition-colors duration-300"
+              >
+                Apply Filter
+              </button>
             </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-700">
-                Max Price:
-              </label>
-              <input
-                type="number"
-                name="maxPrice"
-                value={filters.maxPrice}
-                onChange={handleFilterChange}
-                className="text-black w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-
-            <div className="mb-4 flex items-center">
-              <input
-                type="checkbox"
-                name="inStock"
-                checked={filters.inStock}
-                onChange={handleFilterChange}
-                className="mr-2"
-              />
-              <label className="text-gray-700">
-                In Stock
-              </label>
-            </div>
-
-            <button
-              onClick={applyFilters}
-              className="bg-black text-white p-2 rounded-md hover:bg-gray-500 transition-colors duration-300"
-            >
-              Apply Filter
-            </button>
           </div>
 
           <div className="md:w-3/4 p-4">
@@ -124,15 +126,20 @@ const ProductList = () => {
                   href={`/productdetail/${product.id}`}
                   key={product.id}
                 >
-                  <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer flex flex-col">
-                    <div className="relative w-full h-64 mb-4">
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer flex flex-col relative">
+                    <div className="relative w-full h-64 overflow-hidden aspect-w-16 aspect-h-9">
                       <img
                         src={product.imageURL}
                         alt={product.name}
-                        className="w-full h-full object-contain"
+                        className="absolute inset-0 w-full h-full object-cover filter grayscale-sm blur-sm transform scale-105"
+                      />
+                      <img
+                        src={product.imageURL}
+                        alt={product.name}
+                        className="absolute inset-0 w-full h-full object-contain"
                       />
                     </div>
-                    <h3 className="text-black text-lg font-semibold mb-2 text-center">
+                    <h3 className="text-black text-lg font-semibold mb-2 text-center mt-4">
                       {product.name}
                     </h3>
                     <p className="text-gray-600 text-center">

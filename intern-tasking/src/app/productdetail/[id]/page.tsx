@@ -24,12 +24,13 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] =
     useState<boolean>(false);
+  const [currentImageIndex, setCurrentImageIndex] =
+    useState<number>(0);
 
   useEffect(() => {
     if (id) {
       const storedProductsJSON =
         localStorage.getItem("products");
-
       if (storedProductsJSON) {
         const storedProducts: Product[] = JSON.parse(
           storedProductsJSON
@@ -37,7 +38,6 @@ const ProductDetail = () => {
         const foundProduct = storedProducts.find(
           (p) => p.id === id
         );
-
         if (foundProduct) {
           foundProduct.price = Number(foundProduct.price);
           if (foundProduct.discountPrice) {
@@ -45,7 +45,6 @@ const ProductDetail = () => {
               foundProduct.discountPrice
             );
           }
-
           setProduct(foundProduct);
         } else {
           setProduct(null);
@@ -62,6 +61,22 @@ const ProductDetail = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const handlePrevImage = () => {
+    if (product) {
+      setCurrentImageIndex(
+        (prevIndex) => (prevIndex - 1 + 1) % 1
+      );
+    }
+  };
+
+  const handleNextImage = () => {
+    if (product) {
+      setCurrentImageIndex(
+        (prevIndex) => (prevIndex + 1) % 1
+      );
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found</div>;
 
@@ -69,21 +84,21 @@ const ProductDetail = () => {
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <Header />
       <main className="container mx-auto p-6 flex-grow">
-        <div className="bg-white p-6 rounded-lg shadow-lg relative max-w-2xl mx-auto">
+        <div className="bg-white p-6 rounded-lg shadow-lg relative max-w-xl mx-auto">
           <h1 className="text-black text-2xl font-bold mb-4">
             {product.name}
           </h1>
-
-          <img
-            src={
-              product.imageURL ||
-              "/path/to/default-image.jpg"
-            }
-            alt={product.name}
-            className="mb-4 cursor-pointer w-full h-[500px] object-contain"
-            onClick={openModal}
-          />
-
+          <div className="w-full h-auto overflow-hidden rounded-lg mb-4 cursor-pointer">
+            <img
+              src={
+                product.imageURL ||
+                "/path/to/default-image.jpg"
+              }
+              alt={product.name}
+              className="w-full h-auto object-contain"
+              onClick={openModal}
+            />
+          </div>
           <p className="text-gray-700 mb-2">
             Seller: {product.seller}
           </p>
@@ -114,29 +129,20 @@ const ProductDetail = () => {
             {product.stock > 0 ? "Buy Now" : "Out of Stock"}
           </button>
 
-          <Modal isOpen={isModalOpen} onClose={closeModal}>
-            <div className="relative w-full">
-              <img
-                src={
-                  product.imageURL ||
-                  "/path/to/default-image.jpg"
-                }
-                alt={product.name}
-                className="w-full h-full object-contain bg-gray-200"
-              />
-              <button
-                onClick={() => {}}
-                className="text-black absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full"
-              >
-                {"<"}
-              </button>
-              <button
-                onClick={() => {}}
-                className="text-black absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full"
-              >
-                {">"}
-              </button>
-            </div>
+          <Modal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onPrev={handlePrevImage}
+            onNext={handleNextImage}
+          >
+            <img
+              src={
+                product.imageURL ||
+                "/path/to/default-image.jpg"
+              }
+              alt={product.name}
+              className="w-full h-auto object-contain"
+            />
           </Modal>
         </div>
       </main>
