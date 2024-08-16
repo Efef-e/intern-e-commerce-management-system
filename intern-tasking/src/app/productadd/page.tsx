@@ -13,7 +13,6 @@ interface Product {
   price: number;
   discountPrice?: number;
   category: string;
-  images: File[];
   imageURL: string;
 }
 
@@ -26,7 +25,6 @@ export default function AddProduct() {
     price: 0,
     discountPrice: 0,
     category: "",
-    images: [],
     imageURL: "",
   });
 
@@ -37,17 +35,6 @@ export default function AddProduct() {
     setProduct((prevProduct) => ({
       ...prevProduct,
       [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = e.target.files;
-    const fileArray = files ? Array.from(files) : [];
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      images: fileArray,
     }));
   };
 
@@ -78,7 +65,6 @@ export default function AddProduct() {
           price: 0,
           discountPrice: 0,
           category: "",
-          images: [],
           imageURL: "",
         });
       } catch (error) {
@@ -170,14 +156,6 @@ export default function AddProduct() {
               value={product.category}
               onChange={handleChange}
               placeholder="Category"
-              className="w-full px-4 py-2 border rounded text-black"
-            />
-
-            <input
-              type="file"
-              name="images"
-              onChange={handleImageChange}
-              multiple
               className="w-full px-4 py-2 border rounded text-black"
             />
 
