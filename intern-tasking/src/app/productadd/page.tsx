@@ -9,8 +9,8 @@ interface Product {
   id: string;
   name: string;
   seller: string;
-  stock: number;
-  price: number;
+  stock: number | undefined;
+  price: number | undefined;
   discountPrice?: number;
   category: string;
   imageURL: string;
@@ -21,8 +21,8 @@ export default function AddProduct() {
     id: "",
     name: "",
     seller: "",
-    stock: 0,
-    price: 0,
+    stock: undefined,
+    price: undefined,
     discountPrice: 0,
     category: "",
     imageURL: "",
@@ -40,10 +40,9 @@ export default function AddProduct() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     let errorMessage = "";
 
-    // Validasyon kuralları
     switch (name) {
       case "name":
         if (!/^[A-Za-z]/.test(value)) {
@@ -58,13 +57,16 @@ export default function AddProduct() {
         }
         break;
       case "stock":
-        if (!/^\d+$/.test(value)) {
+        if (value !== "" && !/^\d+$/.test(value)) {
           errorMessage = "Stock must be a number.";
         }
         break;
       case "price":
       case "discountPrice":
-        if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+        if (
+          value !== "" &&
+          !/^\d+(\.\d{1,2})?$/.test(value)
+        ) {
           errorMessage =
             "Price must be a decimal number with up to two decimal places.";
         }
@@ -86,7 +88,12 @@ export default function AddProduct() {
 
     setProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        name === "stock" || name === "price"
+          ? value
+            ? parseFloat(value)
+            : undefined
+          : value,
     }));
   };
 
@@ -113,8 +120,8 @@ export default function AddProduct() {
           id: "",
           name: "",
           seller: "",
-          stock: 0,
-          price: 0,
+          stock: undefined,
+          price: undefined,
           discountPrice: 0,
           category: "",
           imageURL: "",
@@ -137,8 +144,8 @@ export default function AddProduct() {
     return (
       product.name &&
       product.seller &&
-      product.stock >= 0 &&
-      product.price > 0
+      (product.stock === undefined || product.stock >= 0) &&
+      (product.price === undefined || product.price > 0)
     );
   };
 
@@ -191,7 +198,11 @@ export default function AddProduct() {
               <input
                 type="number"
                 name="stock"
-                value={product.stock}
+                value={
+                  product.stock !== undefined
+                    ? product.stock
+                    : ""
+                }
                 onChange={handleChange}
                 placeholder="Stock"
                 className="w-full px-4 py-2 border rounded text-black"
@@ -209,7 +220,11 @@ export default function AddProduct() {
                 type="number"
                 step="0.01"
                 name="price"
-                value={product.price}
+                value={
+                  product.price !== undefined
+                    ? product.price
+                    : ""
+                }
                 onChange={handleChange}
                 placeholder="Price"
                 className="w-full px-4 py-2 border rounded text-black"
