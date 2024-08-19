@@ -28,10 +28,62 @@ export default function AddProduct() {
     imageURL: "",
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    seller: "",
+    stock: "",
+    price: "",
+    discountPrice: "",
+    category: "",
+  });
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value, type, checked } = e.target;
+    let errorMessage = "";
+
+    // Validasyon kuralları
+    switch (name) {
+      case "name":
+        if (!/^[A-Za-z]/.test(value)) {
+          errorMessage =
+            "Product name must start with a letter.";
+        }
+        break;
+      case "seller":
+        if (!/^[A-Za-z0-9][A-Za-z0-9.-]*$/.test(value)) {
+          errorMessage =
+            "Seller name must start with a letter or number and contain only letters, numbers, dots, and hyphens.";
+        }
+        break;
+      case "stock":
+        if (!/^\d+$/.test(value)) {
+          errorMessage = "Stock must be a number.";
+        }
+        break;
+      case "price":
+      case "discountPrice":
+        if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+          errorMessage =
+            "Price must be a decimal number with up to two decimal places.";
+        }
+        break;
+      case "category":
+        if (!/^[A-Za-z\s]+$/.test(value)) {
+          errorMessage =
+            "Category must contain only letters and spaces.";
+        }
+        break;
+      default:
+        break;
+    }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: errorMessage,
+    }));
+
     setProduct((prevProduct) => ({
       ...prevProduct,
       [name]: type === "checkbox" ? checked : value,
@@ -85,7 +137,7 @@ export default function AddProduct() {
     return (
       product.name &&
       product.seller &&
-      product.stock > 0 &&
+      product.stock >= 0 &&
       product.price > 0
     );
   };
@@ -103,61 +155,106 @@ export default function AddProduct() {
             onSubmit={handleSubmit}
             className="space-y-4"
           >
-            <input
-              type="text"
-              name="name"
-              value={product.name}
-              onChange={handleChange}
-              placeholder="Product Name"
-              className="w-full px-4 py-2 border rounded text-black"
-            />
+            <div>
+              <input
+                type="text"
+                name="name"
+                value={product.name}
+                onChange={handleChange}
+                placeholder="Product Name"
+                className="w-full px-4 py-2 border rounded text-black"
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm">
+                  {errors.name}
+                </p>
+              )}
+            </div>
 
-            <input
-              type="text"
-              name="seller"
-              value={product.seller}
-              onChange={handleChange}
-              placeholder="Seller"
-              className="w-full px-4 py-2 border rounded text-black"
-            />
+            <div>
+              <input
+                type="text"
+                name="seller"
+                value={product.seller}
+                onChange={handleChange}
+                placeholder="Seller"
+                className="w-full px-4 py-2 border rounded text-black"
+              />
+              {errors.seller && (
+                <p className="text-red-500 text-sm">
+                  {errors.seller}
+                </p>
+              )}
+            </div>
 
-            <input
-              type="number"
-              name="stock"
-              value={product.stock}
-              onChange={handleChange}
-              placeholder="Stock"
-              className="w-full px-4 py-2 border rounded text-black"
-            />
+            <div>
+              <input
+                type="number"
+                name="stock"
+                value={product.stock}
+                onChange={handleChange}
+                placeholder="Stock"
+                className="w-full px-4 py-2 border rounded text-black"
+                min="0"
+              />
+              {errors.stock && (
+                <p className="text-red-500 text-sm">
+                  {errors.stock}
+                </p>
+              )}
+            </div>
 
-            <input
-              type="number"
-              step="0.01"
-              name="price"
-              value={product.price}
-              onChange={handleChange}
-              placeholder="Price"
-              className="w-full px-4 py-2 border rounded text-black"
-            />
+            <div>
+              <input
+                type="number"
+                step="0.01"
+                name="price"
+                value={product.price}
+                onChange={handleChange}
+                placeholder="Price"
+                className="w-full px-4 py-2 border rounded text-black"
+                min="0"
+              />
+              {errors.price && (
+                <p className="text-red-500 text-sm">
+                  {errors.price}
+                </p>
+              )}
+            </div>
 
-            <input
-              type="number"
-              step="0.01"
-              name="discountPrice"
-              value={product.discountPrice || ""}
-              onChange={handleChange}
-              placeholder="Discount Price"
-              className="w-full px-4 py-2 border rounded text-black"
-            />
+            <div>
+              <input
+                type="number"
+                step="0.01"
+                name="discountPrice"
+                value={product.discountPrice || ""}
+                onChange={handleChange}
+                placeholder="Discount Price"
+                className="w-full px-4 py-2 border rounded text-black"
+                min="0"
+              />
+              {errors.discountPrice && (
+                <p className="text-red-500 text-sm">
+                  {errors.discountPrice}
+                </p>
+              )}
+            </div>
 
-            <input
-              type="text"
-              name="category"
-              value={product.category}
-              onChange={handleChange}
-              placeholder="Category"
-              className="w-full px-4 py-2 border rounded text-black"
-            />
+            <div>
+              <input
+                type="text"
+                name="category"
+                value={product.category}
+                onChange={handleChange}
+                placeholder="Category"
+                className="w-full px-4 py-2 border rounded text-black"
+              />
+              {errors.category && (
+                <p className="text-red-500 text-sm">
+                  {errors.category}
+                </p>
+              )}
+            </div>
 
             <input
               type="text"
