@@ -16,6 +16,8 @@ interface Product {
   imageURLs: string[];
 }
 
+const defaultImageURL = "/comingsoon.jpg";
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(
@@ -80,6 +82,13 @@ const ProductDetail = () => {
     }
   };
 
+  const formatPrice = (price: number | undefined) => {
+    if (typeof price === "number") {
+      return price.toFixed(2);
+    }
+    return "N/A";
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found</div>;
 
@@ -93,10 +102,7 @@ const ProductDetail = () => {
           </h1>
           <div className="w-full h-auto overflow-hidden rounded-lg mb-4 cursor-pointer">
             <img
-              src={
-                product.imageURLs[0] ||
-                "/path/to/default-image.jpg"
-              }
+              src={product.imageURLs[0] || defaultImageURL}
               alt={product.name}
               className="w-full h-auto object-contain"
               onClick={openModal}
@@ -113,12 +119,12 @@ const ProductDetail = () => {
               product.discountPrice ? "line-through" : ""
             }`}
           >
-            Price: ${product.price.toFixed(2)}
+            Price: ${formatPrice(product.price)}
           </p>
           {product.discountPrice && (
             <p className="text-red-500 mb-2">
               Discount Price: $
-              {product.discountPrice.toFixed(2)}
+              {formatPrice(product.discountPrice)}
             </p>
           )}
           <button
@@ -142,7 +148,7 @@ const ProductDetail = () => {
               <img
                 src={
                   product.imageURLs[currentImageIndex] ||
-                  "/path/to/default-image.jpg"
+                  defaultImageURL
                 }
                 alt={product.name}
                 className="w-full h-auto object-contain"

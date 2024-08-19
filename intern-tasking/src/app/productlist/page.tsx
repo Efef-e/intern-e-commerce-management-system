@@ -23,6 +23,8 @@ const ProductList = () => {
     inStock: true,
   });
 
+  const defaultImageURL = "/comingsoon.jpg";
+
   useEffect(() => {
     const storedProductsJSON =
       localStorage.getItem("products");
@@ -58,6 +60,17 @@ const ProductList = () => {
       }
     );
     setProducts(filteredProducts);
+  };
+
+  const getImageURL = (urls: string[], index: number) => {
+    return urls[index] || defaultImageURL;
+  };
+
+  const formatPrice = (price: number | undefined) => {
+    if (typeof price === "number") {
+      return price.toFixed(2);
+    }
+    return "N/A";
   };
 
   return (
@@ -127,30 +140,23 @@ const ProductList = () => {
                   key={product.id}
                 >
                   <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer flex flex-col relative">
-                    <div className="relative w-full h-64 overflow-hidden aspect-w-16 aspect-h-9">
-                      <div className="image-container relative w-full h-full">
-                        {product.imageURLs &&
-                        product.imageURLs.length > 0 ? (
-                          <>
-                            <img
-                              src={product.imageURLs[0]}
-                              alt={product.name}
-                              className="cover absolute inset-0 w-full h-full object-cover filter grayscale-50 blur-sm transform scale-105"
-                            />
-                            <img
-                              src={product.imageURLs[0]}
-                              alt={product.name}
-                              className="contain absolute inset-0 w-full h-full object-contain"
-                            />
-                          </>
-                        ) : (
-                          <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-200">
-                            <span className="text-gray-600">
-                              No Image Available
-                            </span>
-                          </div>
+                    <div className="relative w-full aspect-[16/9] overflow-hidden">
+                      <img
+                        src={getImageURL(
+                          product.imageURLs,
+                          0
                         )}
-                      </div>
+                        alt={product.name}
+                        className="absolute inset-0 w-full h-full object-cover grayscale-[0.5] blur-sm scale-105"
+                      />
+                      <img
+                        src={getImageURL(
+                          product.imageURLs,
+                          0
+                        )}
+                        alt={product.name}
+                        className="absolute inset-0 w-full h-full object-contain"
+                      />
                     </div>
                     <h3 className="text-black text-lg font-semibold mb-2 text-center mt-4">
                       {product.name}
@@ -162,12 +168,12 @@ const ProductList = () => {
                       Stock: {product.stock}
                     </p>
                     <p className="text-gray-600 text-center">
-                      Price: ${product.price}
+                      Price: ${product.price.toFixed(2)}
                     </p>
-                    {product.discountPrice && (
+                    {product.discountPrice != null && (
                       <p className="text-gray-600 text-center">
                         Discount Price: $
-                        {product.discountPrice}
+                        {formatPrice(product.discountPrice)}
                       </p>
                     )}
                   </div>
