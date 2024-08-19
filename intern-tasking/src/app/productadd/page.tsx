@@ -13,7 +13,7 @@ interface Product {
   price: number | undefined;
   discountPrice?: number;
   category: string;
-  imageURL: string;
+  imageURLs: string[];
 }
 
 export default function AddProduct() {
@@ -25,7 +25,7 @@ export default function AddProduct() {
     price: undefined,
     discountPrice: 0,
     category: "",
-    imageURL: "",
+    imageURLs: [""],
   });
 
   const [errors, setErrors] = useState({
@@ -38,63 +38,70 @@ export default function AddProduct() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
+    index?: number
   ) => {
     const { name, value } = e.target;
     let errorMessage = "";
 
-    switch (name) {
-      case "name":
-        if (!/^[A-Za-z]/.test(value)) {
-          errorMessage =
-            "Product name must start with a letter.";
-        }
-        break;
-      case "seller":
-        if (!/^[A-Za-z0-9][A-Za-z0-9.-]*$/.test(value)) {
-          errorMessage =
-            "Seller name must start with a letter or number and contain only letters, numbers, dots, and hyphens.";
-        }
-        break;
-      case "stock":
-        if (value !== "" && !/^\d+$/.test(value)) {
-          errorMessage = "Stock must be a number.";
-        }
-        break;
-      case "price":
-      case "discountPrice":
-        if (
-          value !== "" &&
-          !/^\d+(\.\d{1,2})?$/.test(value)
-        ) {
-          errorMessage =
-            "Price must be a decimal number with up to two decimal places.";
-        }
-        break;
-      case "category":
-        if (!/^[A-Za-z\s]+$/.test(value)) {
-          errorMessage =
-            "Category must contain only letters and spaces.";
-        }
-        break;
-      default:
-        break;
+    if (index !== undefined) {
+      const newImageURLs = [...product.imageURLs];
+      newImageURLs[index] = value;
+      setProduct({ ...product, imageURLs: newImageURLs });
+    } else {
+      switch (name) {
+        case "name":
+          if (!/^[A-Za-z]/.test(value)) {
+            errorMessage =
+              "Product name must start with a letter.";
+          }
+          break;
+        case "seller":
+          if (!/^[A-Za-z0-9][A-Za-z0-9.-]*$/.test(value)) {
+            errorMessage =
+              "Seller name must start with a letter or number and contain only letters, numbers, dots, and hyphens.";
+          }
+          break;
+        case "stock":
+          if (value !== "" && !/^\d+$/.test(value)) {
+            errorMessage = "Stock must be a number.";
+          }
+          break;
+        case "price":
+        case "discountPrice":
+          if (
+            value !== "" &&
+            !/^\d+(\.\d{1,2})?$/.test(value)
+          ) {
+            errorMessage =
+              "Price must be a decimal number with up to two decimal places.";
+          }
+          break;
+        case "category":
+          if (!/^[A-Za-z\s]+$/.test(value)) {
+            errorMessage =
+              "Category must contain only letters and spaces.";
+          }
+          break;
+        default:
+          break;
+      }
+
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: errorMessage,
+      }));
+
+      setProduct((prevProduct) => ({
+        ...prevProduct,
+        [name]:
+          name === "stock" || name === "price"
+            ? value
+              ? parseFloat(value)
+              : undefined
+            : value,
+      }));
     }
-
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: errorMessage,
-    }));
-
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]:
-        name === "stock" || name === "price"
-          ? value
-            ? parseFloat(value)
-            : undefined
-          : value,
-    }));
   };
 
   const handleSubmit = (
@@ -124,7 +131,7 @@ export default function AddProduct() {
           price: undefined,
           discountPrice: 0,
           category: "",
-          imageURL: "",
+          imageURLs: [""],
         });
       } catch (error) {
         console.error(
@@ -147,6 +154,13 @@ export default function AddProduct() {
       (product.stock === undefined || product.stock >= 0) &&
       (product.price === undefined || product.price > 0)
     );
+  };
+
+  const addImageUrlField = () => {
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      imageURLs: [...prevProduct.imageURLs, ""],
+    }));
   };
 
   return (
@@ -271,14 +285,24 @@ export default function AddProduct() {
               )}
             </div>
 
-            <input
-              type="text"
-              name="imageURL"
-              value={product.imageURL}
-              onChange={handleChange}
-              placeholder="Image URL"
-              className="w-full px-4 py-2 border rounded text-black"
-            />
+            {product.imageURLs.map((url, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  value={url}
+                  onChange={(e) => handleChange(e, index)}
+                  placeholder={`Image URL ${index + 1}`}
+                  className="w-full px-4 py-2 border rounded text-black"
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addImageUrlField}
+              className="w-full px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
+            >
+              Add another image URL
+            </button>
 
             <button
               type="submit"

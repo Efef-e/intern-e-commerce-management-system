@@ -13,7 +13,7 @@ interface Product {
   stock: number;
   price: number;
   discountPrice?: number;
-  imageURL: string;
+  imageURLs: string[];
 }
 
 const ProductDetail = () => {
@@ -64,7 +64,9 @@ const ProductDetail = () => {
   const handlePrevImage = () => {
     if (product) {
       setCurrentImageIndex(
-        (prevIndex) => (prevIndex - 1 + 1) % 1
+        (prevIndex) =>
+          (prevIndex - 1 + product.imageURLs.length) %
+          product.imageURLs.length
       );
     }
   };
@@ -72,7 +74,8 @@ const ProductDetail = () => {
   const handleNextImage = () => {
     if (product) {
       setCurrentImageIndex(
-        (prevIndex) => (prevIndex + 1) % 1
+        (prevIndex) =>
+          (prevIndex + 1) % product.imageURLs.length
       );
     }
   };
@@ -91,7 +94,7 @@ const ProductDetail = () => {
           <div className="w-full h-auto overflow-hidden rounded-lg mb-4 cursor-pointer">
             <img
               src={
-                product.imageURL ||
+                product.imageURLs[0] ||
                 "/path/to/default-image.jpg"
               }
               alt={product.name}
@@ -135,14 +138,16 @@ const ProductDetail = () => {
             onPrev={handlePrevImage}
             onNext={handleNextImage}
           >
-            <img
-              src={
-                product.imageURL ||
-                "/path/to/default-image.jpg"
-              }
-              alt={product.name}
-              className="w-full h-auto object-contain"
-            />
+            {product.imageURLs.length > 0 && (
+              <img
+                src={
+                  product.imageURLs[currentImageIndex] ||
+                  "/path/to/default-image.jpg"
+                }
+                alt={product.name}
+                className="w-full h-auto object-contain"
+              />
+            )}
           </Modal>
         </div>
       </main>

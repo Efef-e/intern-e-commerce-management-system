@@ -12,7 +12,7 @@ interface Product {
   stock: number;
   price: number;
   discountPrice?: number;
-  imageURL: string;
+  imageURLs: string[];
 }
 
 const ProductList = () => {
@@ -128,16 +128,29 @@ const ProductList = () => {
                 >
                   <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer flex flex-col relative">
                     <div className="relative w-full h-64 overflow-hidden aspect-w-16 aspect-h-9">
-                      <img
-                        src={product.imageURL}
-                        alt={product.name}
-                        className="absolute inset-0 w-full h-full object-cover filter grayscale-sm blur-sm transform scale-105"
-                      />
-                      <img
-                        src={product.imageURL}
-                        alt={product.name}
-                        className="absolute inset-0 w-full h-full object-contain"
-                      />
+                      <div className="image-container relative w-full h-full">
+                        {product.imageURLs &&
+                        product.imageURLs.length > 0 ? (
+                          <>
+                            <img
+                              src={product.imageURLs[0]}
+                              alt={product.name}
+                              className="cover absolute inset-0 w-full h-full object-cover filter grayscale-50 blur-sm transform scale-105"
+                            />
+                            <img
+                              src={product.imageURLs[0]}
+                              alt={product.name}
+                              className="contain absolute inset-0 w-full h-full object-contain"
+                            />
+                          </>
+                        ) : (
+                          <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-200">
+                            <span className="text-gray-600">
+                              No Image Available
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <h3 className="text-black text-lg font-semibold mb-2 text-center mt-4">
                       {product.name}
