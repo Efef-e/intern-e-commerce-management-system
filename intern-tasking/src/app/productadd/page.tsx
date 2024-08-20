@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Header from "../header/page";
 import Footer from "../footer/page";
+import ProductDialog from "../ProductDialog/page";
 import { v4 as uuidv4 } from "uuid";
 
 interface Product {
@@ -36,6 +37,13 @@ export default function AddProduct() {
     discountPrice: "",
     category: "",
   });
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState<
+    boolean | null
+  >(null);
+  const [dialogMessage, setDialogMessage] =
+    useState<string>("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -122,7 +130,11 @@ export default function AddProduct() {
           "products",
           JSON.stringify(storedProducts)
         );
-        alert("Product added successfully!");
+
+        setIsSuccess(true);
+        setDialogMessage("");
+        setIsDialogOpen(true);
+
         setProduct({
           id: "",
           name: "",
@@ -138,12 +150,19 @@ export default function AddProduct() {
           "Error accessing localStorage:",
           error
         );
-        alert(
-          "There was an error saving the product. Please try again."
+
+        setIsSuccess(false);
+        setDialogMessage(
+          "There was an error adding the product. Please try again."
         );
+        setIsDialogOpen(true);
       }
     } else {
-      alert("Form is not valid!");
+      setIsSuccess(false);
+      setDialogMessage(
+        "Form is not valid! Please check the fields and try again."
+      );
+      setIsDialogOpen(true);
     }
   };
 
@@ -220,7 +239,6 @@ export default function AddProduct() {
                 onChange={handleChange}
                 placeholder="Stock"
                 className="w-full px-4 py-2 border rounded text-black"
-                min="0"
               />
               {errors.stock && (
                 <p className="text-red-500 text-sm">
@@ -232,7 +250,6 @@ export default function AddProduct() {
             <div>
               <input
                 type="number"
-                step="0.01"
                 name="price"
                 value={
                   product.price !== undefined
@@ -242,7 +259,6 @@ export default function AddProduct() {
                 onChange={handleChange}
                 placeholder="Price"
                 className="w-full px-4 py-2 border rounded text-black"
-                min="0"
               />
               {errors.price && (
                 <p className="text-red-500 text-sm">
@@ -254,13 +270,15 @@ export default function AddProduct() {
             <div>
               <input
                 type="number"
-                step="0.01"
                 name="discountPrice"
-                value={product.discountPrice || ""}
+                value={
+                  product.discountPrice !== undefined
+                    ? product.discountPrice
+                    : ""
+                }
                 onChange={handleChange}
                 placeholder="Discount Price"
                 className="w-full px-4 py-2 border rounded text-black"
-                min="0"
               />
               {errors.discountPrice && (
                 <p className="text-red-500 text-sm">
@@ -296,24 +314,33 @@ export default function AddProduct() {
                 />
               </div>
             ))}
+
             <button
               type="button"
               onClick={addImageUrlField}
-              className="w-full px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
+              className="w-full px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
             >
-              Add another image URL
+              Add Another Image URL
             </button>
 
             <button
               type="submit"
-              className="w-full px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
+              className="w-full px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
             >
               Add Product
             </button>
           </form>
         </div>
       </main>
+
       <Footer />
+
+      <ProductDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        success={isSuccess === true}
+        errorMessage={dialogMessage}
+      />
     </div>
   );
 }
