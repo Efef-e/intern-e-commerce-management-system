@@ -5,6 +5,7 @@ import Header from "../header/page";
 import Footer from "../footer/page";
 import ProductDialog from "../ProductDialog/page";
 import { v4 as uuidv4 } from "uuid";
+import { InputMask } from "@react-input/mask";
 
 interface Product {
   id: string;
