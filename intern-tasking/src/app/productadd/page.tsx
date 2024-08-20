@@ -12,7 +12,7 @@ interface Product {
   seller: string;
   stock: number | undefined;
   price: number | undefined;
-  discountPrice?: number;
+  discountPrice: number | undefined;
   category: string;
   imageURLs: string[];
 }
@@ -24,7 +24,7 @@ export default function AddProduct() {
     seller: "",
     stock: undefined,
     price: undefined,
-    discountPrice: 0,
+    discountPrice: undefined,
     category: "",
     imageURLs: [""],
   });
@@ -141,7 +141,7 @@ export default function AddProduct() {
           seller: "",
           stock: undefined,
           price: undefined,
-          discountPrice: 0,
+          discountPrice: undefined,
           category: "",
           imageURLs: [""],
         });
