@@ -21,6 +21,7 @@ const ProductList = () => {
     minPrice: 0,
     maxPrice: Infinity,
     inStock: true,
+    seller: "",
   });
 
   const defaultImageURL = "/comingsoon.jpg";
@@ -56,7 +57,13 @@ const ProductList = () => {
         const inInStock = filters.inStock
           ? product.stock > 0
           : true;
-        return inPriceRange && inInStock;
+        const matchesSeller = filters.seller
+          ? product.seller
+              .toLowerCase()
+              .includes(filters.seller.toLowerCase())
+          : true;
+
+        return inPriceRange && inInStock && matchesSeller;
       }
     );
     setProducts(filteredProducts);
@@ -105,6 +112,19 @@ const ProductList = () => {
                   type="number"
                   name="maxPrice"
                   value={filters.maxPrice}
+                  onChange={handleFilterChange}
+                  className="text-black w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">
+                  Seller:
+                </label>
+                <input
+                  type="text"
+                  name="seller"
+                  value={filters.seller}
                   onChange={handleFilterChange}
                   className="text-black w-full p-2 border border-gray-300 rounded-md"
                 />
