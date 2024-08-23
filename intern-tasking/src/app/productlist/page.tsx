@@ -13,6 +13,7 @@ interface Product {
   price: number;
   discountPrice?: number;
   imageURLs: string[];
+  category: string;
 }
 
 const ProductList = () => {
@@ -22,6 +23,7 @@ const ProductList = () => {
     maxPrice: Infinity,
     inStock: true,
     seller: "",
+    category: "",
   });
 
   const defaultImageURL = "/comingsoon.jpg";
@@ -35,14 +37,26 @@ const ProductList = () => {
     setProducts(storedProducts);
   }, []);
 
+  useEffect(() => {
+    applyFilters();
+  }, [filters]);
+
   const handleFilterChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement
+    >
   ) => {
-    const { name, value, type, checked } = e.target;
-    setFilters({
-      ...filters,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    const target = e.target as
+      | HTMLInputElement
+      | HTMLSelectElement;
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [target.name]:
+        target.type === "checkbox"
+          ? (target as HTMLInputElement).checked
+          : target.value,
+    }));
   };
 
   const applyFilters = () => {
@@ -62,8 +76,17 @@ const ProductList = () => {
               .toLowerCase()
               .includes(filters.seller.toLowerCase())
           : true;
+        const matchesCategory = filters.category
+          ? product.category.toLowerCase() ===
+            filters.category.toLowerCase()
+          : true;
 
-        return inPriceRange && inInStock && matchesSeller;
+        return (
+          inPriceRange &&
+          inInStock &&
+          matchesSeller &&
+          matchesCategory
+        );
       }
     );
     setProducts(filteredProducts);
@@ -125,6 +148,19 @@ const ProductList = () => {
                   type="text"
                   name="seller"
                   value={filters.seller}
+                  onChange={handleFilterChange}
+                  className="text-black w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">
+                  Category:
+                </label>
+                <input
+                  type="text"
+                  name="category"
+                  value={filters.category}
                   onChange={handleFilterChange}
                   className="text-black w-full p-2 border border-gray-300 rounded-md"
                 />
@@ -196,6 +232,9 @@ const ProductList = () => {
                         {formatPrice(product.discountPrice)}
                       </p>
                     )}
+                    <p className="text-gray-600 text-center">
+                      Category: {product.category}
+                    </p>
                   </div>
                 </Link>
               ))}
