@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "../header/page";
 import Footer from "../footer/page";
 import ProductDialog from "../ProductDialog/page";
@@ -46,32 +46,62 @@ export default function AddProduct() {
   const [dialogMessage, setDialogMessage] =
     useState<string>("");
 
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const sellerInputRef = useRef<HTMLInputElement>(null);
+  const stockInputRef = useRef<HTMLInputElement>(null);
+  const priceInputRef = useRef<HTMLInputElement>(null);
+  const discountPriceInputRef =
+    useRef<HTMLInputElement>(null);
+  const categoryInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
-    const stockInput = document.getElementById("stock");
-    const priceInput = document.getElementById("price");
-    const discountPriceInput =
-      document.getElementById("discountPrice");
-
-    if (stockInput) {
-      IMask(stockInput, {
-        mask: Number,
-        thousandsSeparator: ",",
+    if (nameInputRef.current) {
+      IMask(nameInputRef.current, {
+        mask: /^[A-Za-z\s]+$/,
+        placeholder: "Product Name",
       });
     }
 
-    if (priceInput) {
-      IMask(priceInput, {
-        mask: Number,
-        thousandsSeparator: ",",
-        radix: ".",
+    if (sellerInputRef.current) {
+      IMask(sellerInputRef.current, {
+        mask: /^[A-Za-z0-9][A-Za-z0-9.-]*$/,
+        placeholder: "Seller",
       });
     }
 
-    if (discountPriceInput) {
-      IMask(discountPriceInput, {
+    if (stockInputRef.current) {
+      IMask(stockInputRef.current, {
         mask: Number,
         thousandsSeparator: ",",
-        radix: ".",
+        min: 0,
+        placeholder: "Stock",
+      });
+    }
+
+    if (priceInputRef.current) {
+      IMask(priceInputRef.current, {
+        mask: Number,
+        thousandsSeparator: ",",
+        padFractionalZeros: true,
+        normalizeZeros: true,
+        placeholder: "Price",
+      });
+    }
+
+    if (discountPriceInputRef.current) {
+      IMask(discountPriceInputRef.current, {
+        mask: Number,
+        thousandsSeparator: ",",
+        padFractionalZeros: true,
+        normalizeZeros: true,
+        placeholder: "Discount Price",
+      });
+    }
+
+    if (categoryInputRef.current) {
+      IMask(categoryInputRef.current, {
+        mask: /^[A-Za-z\s]+$/,
+        placeholder: "Category",
       });
     }
   }, []);
@@ -90,7 +120,7 @@ export default function AddProduct() {
     } else {
       switch (name) {
         case "name":
-          if (!/^[A-Za-z]+$/.test(value)) {
+          if (!/^[A-Za-z\s]+$/.test(value)) {
             errorMessage =
               "Product name must start with a letter.";
           }
@@ -134,7 +164,9 @@ export default function AddProduct() {
       setProduct((prevProduct) => ({
         ...prevProduct,
         [name]:
-          name === "stock" || name === "price"
+          name === "stock" ||
+          name === "price" ||
+          name === "discountPrice"
             ? value
               ? parseFloat(value.replace(/,/g, ""))
               : undefined
@@ -199,7 +231,7 @@ export default function AddProduct() {
 
   const isValidForm = () => {
     return (
-      /^[A-Za-z]+$/.test(product.name) &&
+      /^[A-Za-z\s]+$/.test(product.name) &&
       /^[A-Za-z0-9][A-Za-z0-9.-]*$/.test(product.seller) &&
       (product.stock === undefined ||
         /^\d+$/.test(String(product.stock))) &&
@@ -237,6 +269,7 @@ export default function AddProduct() {
               <input
                 type="text"
                 name="name"
+                ref={nameInputRef}
                 value={product.name}
                 onChange={handleChange}
                 placeholder="Product Name"
@@ -253,6 +286,7 @@ export default function AddProduct() {
               <input
                 type="text"
                 name="seller"
+                ref={sellerInputRef}
                 value={product.seller}
                 onChange={handleChange}
                 placeholder="Seller"
@@ -270,6 +304,7 @@ export default function AddProduct() {
                 type="text"
                 id="stock"
                 name="stock"
+                ref={stockInputRef}
                 value={
                   product.stock !== undefined
                     ? product.stock
@@ -291,6 +326,7 @@ export default function AddProduct() {
                 type="text"
                 id="price"
                 name="price"
+                ref={priceInputRef}
                 value={
                   product.price !== undefined
                     ? product.price
@@ -312,6 +348,7 @@ export default function AddProduct() {
                 type="text"
                 id="discountPrice"
                 name="discountPrice"
+                ref={discountPriceInputRef}
                 value={
                   product.discountPrice !== undefined
                     ? product.discountPrice
@@ -332,6 +369,7 @@ export default function AddProduct() {
               <input
                 type="text"
                 name="category"
+                ref={categoryInputRef}
                 value={product.category}
                 onChange={handleChange}
                 placeholder="Category"
@@ -358,13 +396,12 @@ export default function AddProduct() {
                 />
               </div>
             ))}
-
             <button
               type="button"
-              onClick={() => addImageUrlField()}
+              onClick={addImageUrlField}
               className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-500"
             >
-              Add Image URL
+              Add Another Image URL
             </button>
 
             <button
@@ -377,15 +414,15 @@ export default function AddProduct() {
         </div>
       </main>
 
+      <Footer />
+
       {isDialogOpen && (
         <ProductDialog
           message={dialogMessage}
-          success={isSuccess === true}
+          success={isSuccess == true}
           onClose={() => setIsDialogOpen(false)}
         />
       )}
-
-      <Footer />
     </div>
   );
 }
