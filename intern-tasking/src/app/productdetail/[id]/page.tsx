@@ -89,8 +89,21 @@ const ProductDetail = () => {
     return "N/A";
   };
 
+  const calculateDiscountPercentage = () => {
+    if (product?.price && product?.discountPrice) {
+      const discount =
+        ((product.price - product.discountPrice) /
+          product.price) *
+        100;
+      return Math.round(discount); // İndirimi en yakın tam sayıya yuvarlıyoruz
+    }
+    return null;
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found</div>;
+
+  const discountPercentage = calculateDiscountPercentage();
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
@@ -125,6 +138,11 @@ const ProductDetail = () => {
             <p className="text-red-500 mb-2">
               Discount Price: $
               {formatPrice(product.discountPrice)}
+              {discountPercentage !== null && (
+                <span className="ml-2 text-sm text-green-600">
+                  ({discountPercentage}% off)
+                </span>
+              )}
             </p>
           )}
           <button
