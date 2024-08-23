@@ -49,7 +49,6 @@ const ProductList = () => {
     const target = e.target as
       | HTMLInputElement
       | HTMLSelectElement;
-
     setFilters((prevFilters) => ({
       ...prevFilters,
       [target.name]:
@@ -185,6 +184,13 @@ const ProductList = () => {
               >
                 Apply Filter
               </button>
+
+              <div className="mt-6 text-center text-gray-700">
+                <span className="text-md font-semibold">
+                  Showing {products.length} product
+                  {products.length !== 1 && "s"}
+                </span>
+              </div>
             </div>
           </div>
 
