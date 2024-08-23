@@ -1,46 +1,33 @@
-import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-
 interface ProductDialogProps {
-  isOpen: boolean;
+  message: string;
+  success: boolean;
   onClose: () => void;
-  success?: boolean;
-  errorMessage?: string;
 }
 
 const ProductDialog: React.FC<ProductDialogProps> = ({
-  isOpen,
-  onClose,
+  message,
   success,
-  errorMessage,
+  onClose,
 }) => {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>
-            {success ? "Success" : "Error"}
-          </DialogTitle>
-        </DialogHeader>
-        <p className="text-gray-700">
-          {success
-            ? "Product has been added successfully!"
-            : errorMessage ||
-              "There was an error. Please try again."}
-        </p>
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+        <h2
+          className={`text-xl font-bold ${
+            success ? "text-green-600" : "text-red-600"
+          }`}
+        >
+          {success ? "Success" : "Error"}
+        </h2>
+        <p className="mt-2">{message}</p>
         <button
           onClick={onClose}
-          className="mt-4 w-full px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
+          className="mt-4 px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-500"
         >
           Close
         </button>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };
 

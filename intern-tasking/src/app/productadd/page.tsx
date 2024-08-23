@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../header/page";
 import Footer from "../footer/page";
 import ProductDialog from "../ProductDialog/page";
 import { v4 as uuidv4 } from "uuid";
-import { InputMask } from "@react-input/mask";
+import IMask from "imask";
 
 interface Product {
   id: string;
@@ -46,6 +46,36 @@ export default function AddProduct() {
   const [dialogMessage, setDialogMessage] =
     useState<string>("");
 
+  useEffect(() => {
+    const stockInput = document.getElementById("stock");
+    const priceInput = document.getElementById("price");
+    const discountPriceInput =
+      document.getElementById("discountPrice");
+
+    if (stockInput) {
+      IMask(stockInput, {
+        mask: Number,
+        thousandsSeparator: ",",
+      });
+    }
+
+    if (priceInput) {
+      IMask(priceInput, {
+        mask: Number,
+        thousandsSeparator: ",",
+        radix: ".",
+      });
+    }
+
+    if (discountPriceInput) {
+      IMask(discountPriceInput, {
+        mask: Number,
+        thousandsSeparator: ",",
+        radix: ".",
+      });
+    }
+  }, []);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index?: number
@@ -60,7 +90,7 @@ export default function AddProduct() {
     } else {
       switch (name) {
         case "name":
-          if (!/^[A-Za-z]/.test(value)) {
+          if (!/^[A-Za-z]+$/.test(value)) {
             errorMessage =
               "Product name must start with a letter.";
           }
@@ -106,7 +136,7 @@ export default function AddProduct() {
         [name]:
           name === "stock" || name === "price"
             ? value
-              ? parseFloat(value)
+              ? parseFloat(value.replace(/,/g, ""))
               : undefined
             : value,
       }));
@@ -133,7 +163,7 @@ export default function AddProduct() {
         );
 
         setIsSuccess(true);
-        setDialogMessage("");
+        setDialogMessage("Product added successfully!");
         setIsDialogOpen(true);
 
         setProduct({
@@ -169,10 +199,17 @@ export default function AddProduct() {
 
   const isValidForm = () => {
     return (
-      product.name &&
-      product.seller &&
-      (product.stock === undefined || product.stock >= 0) &&
-      (product.price === undefined || product.price > 0)
+      /^[A-Za-z]+$/.test(product.name) &&
+      /^[A-Za-z0-9][A-Za-z0-9.-]*$/.test(product.seller) &&
+      (product.stock === undefined ||
+        /^\d+$/.test(String(product.stock))) &&
+      (product.price === undefined ||
+        /^\d+(\.\d{1,2})?$/.test(String(product.price))) &&
+      (product.discountPrice === undefined ||
+        /^\d+(\.\d{1,2})?$/.test(
+          String(product.discountPrice)
+        )) &&
+      /^[A-Za-z\s]+$/.test(product.category)
     );
   };
 
@@ -230,7 +267,8 @@ export default function AddProduct() {
 
             <div>
               <input
-                type="number"
+                type="text"
+                id="stock"
                 name="stock"
                 value={
                   product.stock !== undefined
@@ -250,7 +288,8 @@ export default function AddProduct() {
 
             <div>
               <input
-                type="number"
+                type="text"
+                id="price"
                 name="price"
                 value={
                   product.price !== undefined
@@ -270,7 +309,8 @@ export default function AddProduct() {
 
             <div>
               <input
-                type="number"
+                type="text"
+                id="discountPrice"
                 name="discountPrice"
                 value={
                   product.discountPrice !== undefined
@@ -305,28 +345,31 @@ export default function AddProduct() {
             </div>
 
             {product.imageURLs.map((url, index) => (
-              <div key={index}>
+              <div
+                key={index}
+                className="flex items-center space-x-2"
+              >
                 <input
                   type="text"
                   value={url}
                   onChange={(e) => handleChange(e, index)}
                   placeholder={`Image URL ${index + 1}`}
-                  className="w-full px-4 py-2 border rounded text-black"
+                  className="flex-grow px-4 py-2 border rounded text-black"
                 />
               </div>
             ))}
 
             <button
               type="button"
-              onClick={addImageUrlField}
-              className="w-full px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
+              onClick={() => addImageUrlField()}
+              className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-500"
             >
-              Add Another Image URL
+              Add Image URL
             </button>
 
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-500 transition-colors duration-300"
+              className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-500"
             >
               Add Product
             </button>
@@ -334,14 +377,15 @@ export default function AddProduct() {
         </div>
       </main>
 
-      <Footer />
+      {isDialogOpen && (
+        <ProductDialog
+          message={dialogMessage}
+          success={isSuccess === true}
+          onClose={() => setIsDialogOpen(false)}
+        />
+      )}
 
-      <ProductDialog
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        success={isSuccess === true}
-        errorMessage={dialogMessage}
-      />
+      <Footer />
     </div>
   );
 }
