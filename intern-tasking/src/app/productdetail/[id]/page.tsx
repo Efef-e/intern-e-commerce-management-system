@@ -109,8 +109,8 @@ const ProductDetail = () => {
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <Header />
       <main className="container mx-auto p-6 flex-grow">
-        <div className="bg-white p-6 rounded-lg shadow-lg relative max-w-xl mx-auto">
-          <h1 className="text-black text-2xl font-bold mb-4">
+        <div className="bg-darkBlue border border-emerald p-6 rounded-lg shadow-lg relative max-w-xl mx-auto">
+          <h1 className="text-white text-2xl font-bold mb-4">
             {product.name}
           </h1>
           <div className="w-full h-auto overflow-hidden rounded-lg mb-4 cursor-pointer">
@@ -121,14 +121,14 @@ const ProductDetail = () => {
               onClick={openModal}
             />
           </div>
-          <p className="text-gray-700 mb-2">
+          <p className="text-white mb-2">
             Seller: {product.seller}
           </p>
-          <p className="text-gray-700 mb-2">
+          <p className="text-white mb-2">
             Stock: {product.stock}
           </p>
           <p
-            className={`text-gray-700 mb-2 ${
+            className={`text-white mb-2 ${
               product.discountPrice ? "line-through" : ""
             }`}
           >
@@ -147,7 +147,7 @@ const ProductDetail = () => {
           )}
           <div className="flex justify-center items-center">
             <button
-              className={`px-4 py-2 mt-4 rounded-md hover:bg-gray-500 transition-colors duration-300 ${
+              className={`bg-emerald px-4 py-2 mt-4 rounded-md hover:bg-darkBlue transition-colors duration-500 ${
                 product.stock > 0
                   ? "bg-black text-white"
                   : "bg-gray-400 text-gray-700 cursor-not-allowed"

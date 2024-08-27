@@ -257,7 +257,7 @@ export default function AddProduct() {
       <Header />
 
       <main className="flex-grow flex items-center justify-center">
-        <div className="bg-darkBlue p-8 rounded-lg shadow-lg w-full max-w-lg">
+        <div className="bg-darkBlue border border-emerald p-8 rounded-lg shadow-lg w-full max-w-lg">
           <h1 className="text-emerald-500 text-2xl font-bold mb-6 text-center">
             Add Product
           </h1>
@@ -273,7 +273,7 @@ export default function AddProduct() {
                 value={product.name}
                 onChange={handleChange}
                 placeholder="Product Name"
-                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
+                className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
               />
               {errors.name && (
                 <p className="text-red-500 text-sm">
@@ -290,7 +290,7 @@ export default function AddProduct() {
                 value={product.seller}
                 onChange={handleChange}
                 placeholder="Seller"
-                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
+                className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
               />
               {errors.seller && (
                 <p className="text-red-500 text-sm">
@@ -312,7 +312,7 @@ export default function AddProduct() {
                 }
                 onChange={handleChange}
                 placeholder="Stock"
-                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
+                className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
               />
               {errors.stock && (
                 <p className="text-red-500 text-sm">
@@ -334,7 +334,7 @@ export default function AddProduct() {
                 }
                 onChange={handleChange}
                 placeholder="Price"
-                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
+                className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
               />
               {errors.price && (
                 <p className="text-red-500 text-sm">
@@ -356,7 +356,7 @@ export default function AddProduct() {
                 }
                 onChange={handleChange}
                 placeholder="Discount Price"
-                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
+                className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
               />
               {errors.discountPrice && (
                 <p className="text-red-500 text-sm">
@@ -374,7 +374,7 @@ export default function AddProduct() {
                 value={product.category}
                 onChange={handleChange}
                 placeholder="Category"
-                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
+                className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
               />
               {errors.category && (
                 <p className="text-red-500 text-sm">
@@ -394,7 +394,7 @@ export default function AddProduct() {
                     value={url}
                     onChange={(e) => handleChange(e, index)}
                     placeholder="Image URL"
-                    className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
+                    className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
                   />
                 </div>
               ))}

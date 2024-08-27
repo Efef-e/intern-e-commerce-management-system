@@ -97,7 +97,7 @@ const Header = () => {
             onChange={handleSearchChange}
             onKeyDown={handleKeyDown}
             placeholder="Search products..."
-            className="bg-white w-full px-4 py-2 border rounded borderbg-emerald text-darkBlue"
+            className="bg-white w-full px-4 py-2 border border-emerald rounded borderbg-emerald text-darkBlue"
           />
           {isDropdownOpen && searchResults.length > 0 && (
             <ul

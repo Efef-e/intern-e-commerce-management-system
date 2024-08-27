@@ -108,13 +108,13 @@ const ProductList = () => {
       <div className="container mx-auto p-6 flex-grow">
         <div className="flex flex-col md:flex-row mb-6">
           <div className="md:w-1/4">
-            <div className="p-4 bg-white rounded-lg shadow-lg">
-              <h2 className="text-xl font-semibold mb-4">
+            <div className="p-4 bg-darkBlue border border-emerald rounded-lg shadow-lg">
+              <h2 className="text-xl text-white font-semibold mb-4">
                 Filter
               </h2>
 
               <div className="mb-4">
-                <label className="block text-gray-700">
+                <label className="block text-white">
                   Min Price:
                 </label>
                 <input
@@ -122,12 +122,12 @@ const ProductList = () => {
                   name="minPrice"
                   value={filters.minPrice}
                   onChange={handleFilterChange}
-                  className="text-black w-full p-2 border border-gray-300 rounded-md"
+                  className="text-black w-full p-2 border border-emerald rounded-md"
                 />
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700">
+                <label className="block text-white">
                   Max Price:
                 </label>
                 <input
@@ -135,12 +135,12 @@ const ProductList = () => {
                   name="maxPrice"
                   value={filters.maxPrice}
                   onChange={handleFilterChange}
-                  className="text-black w-full p-2 border border-gray-300 rounded-md"
+                  className="text-black w-full p-2 border border-emerald rounded-md"
                 />
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700">
+                <label className="block text-white">
                   Seller:
                 </label>
                 <input
@@ -148,12 +148,12 @@ const ProductList = () => {
                   name="seller"
                   value={filters.seller}
                   onChange={handleFilterChange}
-                  className="text-black w-full p-2 border border-gray-300 rounded-md"
+                  className="text-black w-full p-2 border border-emerald rounded-md"
                 />
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700">
+                <label className="block text-white">
                   Category:
                 </label>
                 <input
@@ -161,7 +161,7 @@ const ProductList = () => {
                   name="category"
                   value={filters.category}
                   onChange={handleFilterChange}
-                  className="text-black w-full p-2 border border-gray-300 rounded-md"
+                  className="text-black w-full p-2 border border-emerald rounded-md"
                 />
               </div>
 
@@ -173,19 +173,19 @@ const ProductList = () => {
                   onChange={handleFilterChange}
                   className="mr-2"
                 />
-                <label className="text-gray-700">
+                <label className="text-white">
                   In Stock
                 </label>
               </div>
 
               <button
                 onClick={applyFilters}
-                className="bg-black text-white p-2 rounded-md hover:bg-gray-500 transition-colors duration-300"
+                className="bg-emerald text-white p-2 rounded-md hover:bg-darkBlue transition-colors duration-500"
               >
                 Apply Filter
               </button>
 
-              <div className="mt-6 text-center text-gray-700">
+              <div className="mt-6 text-center text-white">
                 <span className="text-md font-semibold">
                   Showing {products.length} product
                   {products.length !== 1 && "s"}
@@ -201,7 +201,7 @@ const ProductList = () => {
                   href={`/productdetail/${product.id}`}
                   key={product.id}
                 >
-                  <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer flex flex-col relative">
+                  <div className="bg-darkBlue border border-emerald rounded-lg shadow-md p-4 cursor-pointer flex flex-col relative">
                     <div className="relative w-full aspect-[16/9] overflow-hidden">
                       <img
                         src={getImageURL(
@@ -220,25 +220,25 @@ const ProductList = () => {
                         className="absolute inset-0 w-full h-full object-contain"
                       />
                     </div>
-                    <h3 className="text-black text-lg font-semibold mb-2 text-center mt-4">
+                    <h3 className="text-emerald text-lg font-semibold mb-2 text-center mt-4">
                       {product.name}
                     </h3>
-                    <p className="text-gray-600 text-center">
+                    <p className="text-white text-center">
                       Seller: {product.seller}
                     </p>
-                    <p className="text-gray-600 text-center">
+                    <p className="text-white text-center">
                       Stock: {product.stock}
                     </p>
-                    <p className="text-gray-600 text-center">
+                    <p className="text-white text-center">
                       Price: ${product.price.toFixed(2)}
                     </p>
                     {product.discountPrice != null && (
-                      <p className="text-gray-600 text-center">
+                      <p className="text-white text-center">
                         Discount Price: $
                         {formatPrice(product.discountPrice)}
                       </p>
                     )}
-                    <p className="text-gray-600 text-center">
+                    <p className="text-white text-center">
                       Category: {product.category}
                     </p>
                   </div>
