@@ -253,12 +253,12 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-gray-200 text-white">
       <Header />
 
       <main className="flex-grow flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-          <h1 className="text-black text-2xl font-bold mb-6 text-center">
+        <div className="bg-darkBlue p-8 rounded-lg shadow-lg w-full max-w-lg">
+          <h1 className="text-emerald-500 text-2xl font-bold mb-6 text-center">
             Add Product
           </h1>
           <form
@@ -273,7 +273,7 @@ export default function AddProduct() {
                 value={product.name}
                 onChange={handleChange}
                 placeholder="Product Name"
-                className="w-full px-4 py-2 border rounded text-black"
+                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
               />
               {errors.name && (
                 <p className="text-red-500 text-sm">
@@ -290,7 +290,7 @@ export default function AddProduct() {
                 value={product.seller}
                 onChange={handleChange}
                 placeholder="Seller"
-                className="w-full px-4 py-2 border rounded text-black"
+                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
               />
               {errors.seller && (
                 <p className="text-red-500 text-sm">
@@ -312,7 +312,7 @@ export default function AddProduct() {
                 }
                 onChange={handleChange}
                 placeholder="Stock"
-                className="w-full px-4 py-2 border rounded text-black"
+                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
               />
               {errors.stock && (
                 <p className="text-red-500 text-sm">
@@ -334,7 +334,7 @@ export default function AddProduct() {
                 }
                 onChange={handleChange}
                 placeholder="Price"
-                className="w-full px-4 py-2 border rounded text-black"
+                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
               />
               {errors.price && (
                 <p className="text-red-500 text-sm">
@@ -356,7 +356,7 @@ export default function AddProduct() {
                 }
                 onChange={handleChange}
                 placeholder="Discount Price"
-                className="w-full px-4 py-2 border rounded text-black"
+                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
               />
               {errors.discountPrice && (
                 <p className="text-red-500 text-sm">
@@ -368,12 +368,13 @@ export default function AddProduct() {
             <div>
               <input
                 type="text"
+                id="category"
                 name="category"
                 ref={categoryInputRef}
                 value={product.category}
                 onChange={handleChange}
                 placeholder="Category"
-                className="w-full px-4 py-2 border rounded text-black"
+                className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
               />
               {errors.category && (
                 <p className="text-red-500 text-sm">
@@ -382,34 +383,56 @@ export default function AddProduct() {
               )}
             </div>
 
-            {product.imageURLs.map((url, index) => (
-              <div
-                key={index}
-                className="flex items-center space-x-2"
+            <div className="flex flex-col space-y-2">
+              {product.imageURLs.map((url, index) => (
+                <div
+                  key={index}
+                  className="flex items-center"
+                >
+                  <input
+                    type="text"
+                    value={url}
+                    onChange={(e) => handleChange(e, index)}
+                    placeholder="Image URL"
+                    className="w-full px-4 py-2 border border-gray-700 rounded text-gray-900 bg-white"
+                  />
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addImageUrlField}
+                className="w-full py-2 bg-emerald text-white rounded hover:bg-darkBlue duration-500"
               >
-                <input
-                  type="text"
-                  value={url}
-                  onChange={(e) => handleChange(e, index)}
-                  placeholder={`Image URL ${index + 1}`}
-                  className="flex-grow px-4 py-2 border rounded text-black"
-                />
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addImageUrlField}
-              className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-500"
-            >
-              Add Another Image URL
-            </button>
+                Add Image URL
+              </button>
+            </div>
 
-            <button
-              type="submit"
-              className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition-colors duration-500"
-            >
-              Add Product
-            </button>
+            <div className="flex justify-end space-x-2">
+              <button
+                type="submit"
+                className="bg-emerald w-full py-2 rounded text-white hover:bg-darkBlue duration-500"
+              >
+                Add Product
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  setProduct({
+                    id: "",
+                    name: "",
+                    seller: "",
+                    stock: undefined,
+                    price: undefined,
+                    discountPrice: undefined,
+                    category: "",
+                    imageURLs: [""],
+                  })
+                }
+                className="bg-emerald px-4 py-2 rounded text-white hover:bg-darkBlue duration-500"
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </main>
@@ -419,7 +442,7 @@ export default function AddProduct() {
       {isDialogOpen && (
         <ProductDialog
           message={dialogMessage}
-          success={isSuccess == true}
+          success={isSuccess === true}
           onClose={() => setIsDialogOpen(false)}
         />
       )}

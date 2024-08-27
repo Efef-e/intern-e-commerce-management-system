@@ -129,7 +129,7 @@ const Header = () => {
             href="/productadd"
             className="px-6 py-3 bg-emerald text-white rounded-lg hover:bg-darkBlue transition-colors duration-500"
           >
-            Product Add
+            Add Product
           </Link>
           <Link
             href="/productlist"

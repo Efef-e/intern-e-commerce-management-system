@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="bg-white flex-grow flex flex-col items-center justify-center text-center p-6">
+      <main className="bg-gray-200 flex-grow flex flex-col items-center justify-center text-center p-6">
         <div className="max-w-4xl">
           <h2 className="text-4xl font-bold mb-6 text-darkBlue">
             Make Your Easier With E-Commerce Management
@@ -25,7 +25,7 @@ export default function Home() {
               href={"/productadd"}
               className="px-6 py-3 bg-emerald text-white rounded-lg hover:bg-darkBlue transition-colors duration-500"
             >
-              Product Add
+              Add Product
             </Link>
             <Link
               href={"/productlist"}
