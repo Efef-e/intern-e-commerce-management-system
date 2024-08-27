@@ -9,13 +9,13 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="bg-gray-100 flex-grow flex flex-col items-center justify-center text-center p-6">
+      <main className="bg-white flex-grow flex flex-col items-center justify-center text-center p-6">
         <div className="max-w-4xl">
-          <h2 className="text-4xl font-bold mb-6 text-black">
+          <h2 className="text-4xl font-bold mb-6 text-darkBlue">
             Make Your Easier With E-Commerce Management
             System
           </h2>
-          <p className="text-lg mb-8 text-gray-700">
+          <p className="text-lg mb-8 text-darkBlue">
             Easily add, manage and list your products. A
             modern and user-friendly platform that will meet
             all your e-commerce needs.
@@ -23,13 +23,13 @@ export default function Home() {
           <div className="justify-center space-y-4 sm:space-y-0 sm:space-x-5 flex flex-col sm:flex-row">
             <Link
               href={"/productadd"}
-              className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
+              className="px-6 py-3 bg-emerald text-white rounded-lg hover:bg-darkBlue transition-colors duration-500"
             >
               Product Add
             </Link>
             <Link
               href={"/productlist"}
-              className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-500"
+              className="px-6 py-3 bg-emerald text-white rounded-lg hover:bg-darkBlue transition-colors duration-500"
             >
               Product List
             </Link>
