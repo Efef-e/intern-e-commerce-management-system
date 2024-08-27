@@ -19,10 +19,10 @@ const Modal: FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="relative bg-white p-6 rounded-lg w-full max-w-4xl">
+      <div className="relative bg-darkBlue p-6 rounded-lg w-full max-w-4xl">
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-black text-xl"
+          className="absolute top-2 right-2 text-white text-xl"
         >
           &times;
         </button>
@@ -30,14 +30,14 @@ const Modal: FC<ModalProps> = ({
           {children}
           <button
             onClick={onPrev}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-black text-3xl bg-white bg-opacity-75 p-2 rounded-full shadow-md"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl bg-darkBlue bg-opacity-75 p-2 rounded-full shadow-md"
             style={{ zIndex: 10 }}
           >
             &lt;
           </button>
           <button
             onClick={onNext}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black text-3xl bg-white bg-opacity-75 p-2 rounded-full shadow-md"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl bg-darkBlue bg-opacity-75 p-2 rounded-full shadow-md"
             style={{ zIndex: 10 }}
           >
             &gt;
