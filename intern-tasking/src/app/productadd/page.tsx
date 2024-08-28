@@ -80,20 +80,14 @@ export default function AddProduct() {
 
     if (priceInputRef.current) {
       IMask(priceInputRef.current, {
-        mask: Number,
-        thousandsSeparator: ",",
-        padFractionalZeros: true,
-        normalizeZeros: true,
+        mask: /^[0-9]*$/,
         placeholder: "Price",
       });
     }
 
     if (discountPriceInputRef.current) {
       IMask(discountPriceInputRef.current, {
-        mask: Number,
-        thousandsSeparator: ",",
-        padFractionalZeros: true,
-        normalizeZeros: true,
+        mask: /^[0-9]*$/,
         placeholder: "Discount Price",
       });
     }
