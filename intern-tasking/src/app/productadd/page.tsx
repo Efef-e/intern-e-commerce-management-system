@@ -71,8 +71,7 @@ export default function AddProduct() {
 
     if (stockInputRef.current) {
       IMask(stockInputRef.current, {
-        mask: Number,
-        thousandsSeparator: ",",
+        mask: /^[0-9]*$/,
         min: 0,
         placeholder: "Stock",
       });
