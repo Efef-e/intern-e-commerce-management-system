@@ -149,6 +149,15 @@ export default function AddProduct() {
           break;
       }
 
+      if (
+        name === "discountPrice" &&
+        product.price !== undefined &&
+        parseFloat(value) >= product.price
+      ) {
+        errorMessage =
+          "Discount price must be less than the original price.";
+      }
+
       setErrors((prevErrors) => ({
         ...prevErrors,
         [name]: errorMessage,
@@ -231,9 +240,11 @@ export default function AddProduct() {
       (product.price === undefined ||
         /^\d+(\.\d{1,2})?$/.test(String(product.price))) &&
       (product.discountPrice === undefined ||
-        /^\d+(\.\d{1,2})?$/.test(
-          String(product.discountPrice)
-        )) &&
+        (product.price !== undefined &&
+          product.discountPrice < product.price &&
+          /^\d+(\.\d{1,2})?$/.test(
+            String(product.discountPrice)
+          ))) &&
       /^[A-Za-z\s]+$/.test(product.category)
     );
   };
@@ -361,7 +372,6 @@ export default function AddProduct() {
             <div>
               <input
                 type="text"
-                id="category"
                 name="category"
                 ref={categoryInputRef}
                 value={product.category}
@@ -376,54 +386,34 @@ export default function AddProduct() {
               )}
             </div>
 
-            <div className="flex flex-col space-y-2">
-              {product.imageURLs.map((url, index) => (
-                <div
-                  key={index}
-                  className="flex items-center"
-                >
-                  <input
-                    type="text"
-                    value={url}
-                    onChange={(e) => handleChange(e, index)}
-                    placeholder="Image URL"
-                    className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
-                  />
-                </div>
-              ))}
+            {product.imageURLs.map((url, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  value={url}
+                  onChange={(e) => handleChange(e, index)}
+                  placeholder={`Image URL ${index + 1}`}
+                  className="w-full px-4 py-2 border border-emerald rounded text-gray-900 bg-white"
+                />
+              </div>
+            ))}
+
+            <div className="flex justify-center">
               <button
                 type="button"
                 onClick={addImageUrlField}
-                className="w-full py-2 bg-emerald text-white rounded hover:bg-darkBlue duration-500"
+                className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
               >
                 Add Image URL
               </button>
             </div>
 
-            <div className="flex justify-end space-x-2">
+            <div className="text-center">
               <button
                 type="submit"
-                className="bg-emerald w-full py-2 rounded text-white hover:bg-darkBlue duration-500"
+                className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
               >
                 Add Product
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  setProduct({
-                    id: "",
-                    name: "",
-                    seller: "",
-                    stock: undefined,
-                    price: undefined,
-                    discountPrice: undefined,
-                    category: "",
-                    imageURLs: [""],
-                  })
-                }
-                className="bg-emerald px-4 py-2 rounded text-white hover:bg-darkBlue duration-500"
-              >
-                Cancel
               </button>
             </div>
           </form>
