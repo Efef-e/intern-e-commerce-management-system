@@ -256,6 +256,27 @@ export default function AddProduct() {
     }));
   };
 
+  const resetForm = () => {
+    setProduct({
+      id: "",
+      name: "",
+      seller: "",
+      stock: undefined,
+      price: undefined,
+      discountPrice: undefined,
+      category: "",
+      imageURLs: [""],
+    });
+    setErrors({
+      name: "",
+      seller: "",
+      stock: "",
+      price: "",
+      discountPrice: "",
+      category: "",
+    });
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-200 text-white">
       <Header />
@@ -398,20 +419,27 @@ export default function AddProduct() {
               </div>
             ))}
 
-            <div className="flex justify-center">
+            <div className="flex justify-between items-center space-x-2">
               <button
                 type="button"
                 onClick={addImageUrlField}
-                className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
+                className="bg-emerald w-full text-white py-2 rounded hover:bg-darkBlue transition-colors duration-500"
               >
                 Add Image URL
+              </button>
+              <button
+                type="button"
+                onClick={resetForm}
+                className="bg-emerald text-white px-4 py-2 rounded hover:bg-darkBlue transition-colors duration-500"
+              >
+                Cancel
               </button>
             </div>
 
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
+                className="bg-emerald w-full text-white px-4 py-2 rounded hover:bg-darkBlue transition-colors duration-500"
               >
                 Add Product
               </button>
