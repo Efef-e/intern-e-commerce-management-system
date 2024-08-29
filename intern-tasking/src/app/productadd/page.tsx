@@ -64,7 +64,7 @@ export default function AddProduct() {
 
     if (sellerInputRef.current) {
       IMask(sellerInputRef.current, {
-        mask: /^[A-Za-z0-9][A-Za-z0-9.-]*$/,
+        mask: /^[A-Za-z0-9\s.-]*$/,
         placeholder: "Seller",
       });
     }
@@ -119,7 +119,7 @@ export default function AddProduct() {
           }
           break;
         case "seller":
-          if (!/^[A-Za-z0-9][A-Za-z0-9.-]*$/.test(value)) {
+          if (!/^[A-Za-z0-9\s.-]*$/.test(value)) {
             errorMessage =
               "Seller name must start with a letter or number and contain only letters, numbers, dots, and hyphens.";
           }
@@ -234,7 +234,7 @@ export default function AddProduct() {
   const isValidForm = () => {
     return (
       /^[A-Za-z\s]+$/.test(product.name) &&
-      /^[A-Za-z0-9][A-Za-z0-9.-]*$/.test(product.seller) &&
+      /^[A-Za-z0-9\s.-]*$/.test(product.seller) &&
       (product.stock === undefined ||
         /^\d+$/.test(String(product.stock))) &&
       (product.price === undefined ||
