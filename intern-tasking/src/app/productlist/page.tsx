@@ -34,7 +34,18 @@ const ProductList = () => {
     const storedProducts = storedProductsJSON
       ? JSON.parse(storedProductsJSON)
       : [];
-    setProducts(storedProducts);
+
+    const formattedProducts = storedProducts.map(
+      (item: any) => ({
+        ...item,
+        price: parseFloat(item.price),
+        discountPrice: item.discountPrice
+          ? parseFloat(item.discountPrice)
+          : undefined,
+      })
+    );
+
+    setProducts(formattedProducts);
   }, []);
 
   useEffect(() => {
@@ -112,7 +123,6 @@ const ProductList = () => {
               <h2 className="text-xl text-white font-semibold mb-4">
                 Filter
               </h2>
-
               <div className="mb-4">
                 <label className="block text-white">
                   Min Price:
@@ -125,7 +135,6 @@ const ProductList = () => {
                   className="text-black w-full p-2 border border-emerald rounded-md"
                 />
               </div>
-
               <div className="mb-4">
                 <label className="block text-white">
                   Max Price:
@@ -138,7 +147,6 @@ const ProductList = () => {
                   className="text-black w-full p-2 border border-emerald rounded-md"
                 />
               </div>
-
               <div className="mb-4">
                 <label className="block text-white">
                   Seller:
@@ -151,7 +159,6 @@ const ProductList = () => {
                   className="text-black w-full p-2 border border-emerald rounded-md"
                 />
               </div>
-
               <div className="mb-4">
                 <label className="block text-white">
                   Category:
@@ -164,7 +171,6 @@ const ProductList = () => {
                   className="text-black w-full p-2 border border-emerald rounded-md"
                 />
               </div>
-
               <div className="mb-4 flex items-center">
                 <input
                   type="checkbox"
@@ -177,14 +183,12 @@ const ProductList = () => {
                   In Stock
                 </label>
               </div>
-
               <button
                 onClick={applyFilters}
                 className="bg-emerald text-white p-2 rounded-md hover:bg-darkBlue transition-colors duration-500"
               >
                 Apply Filter
               </button>
-
               <div className="mt-6 text-center text-white">
                 <span className="text-md font-semibold">
                   Showing {products.length} product
@@ -193,7 +197,6 @@ const ProductList = () => {
               </div>
             </div>
           </div>
-
           <div className="md:w-3/4 p-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.map((product) => (
@@ -202,7 +205,7 @@ const ProductList = () => {
                   key={product.id}
                 >
                   <div className="bg-darkBlue border border-emerald rounded-lg shadow-md p-4 cursor-pointer flex flex-col relative">
-                    <div className="relative w-full aspect-[16/9] overflow-hidden">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden">
                       <img
                         src={getImageURL(
                           product.imageURLs,
@@ -230,7 +233,7 @@ const ProductList = () => {
                       Stock: {product.stock}
                     </p>
                     <p className="text-white text-center">
-                      Price: ${product.price.toFixed(2)}
+                      Price: ${formatPrice(product.price)}
                     </p>
                     {product.discountPrice != null && (
                       <p className="text-white text-center">
